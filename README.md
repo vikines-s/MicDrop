@@ -6,7 +6,7 @@ Proximity Social Media Application
 
 ## Overview
 
-*MicDrop* (tentative) is a music sharing platform within a restricted vicinity. Users who have the app and hav allowed the use of bluetooth can share their current listening activity with other users within a 10m radius.
+Our team is looking to create a music dating app called MicDrop (tentative) that matches people based on the similarity of their music taste. We will use the spotify API to read users listening history and trends and then match them based on similarity of the genres and artists they listen to, as well as location.
 
 ## API Options
 
