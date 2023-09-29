@@ -10,7 +10,7 @@ Our team is looking to create a music dating app called MicDrop (tentative) that
 
 ## API Options
 
-[MusicBrainz Api](https://musicbrainz.org/doc/MusicBrainz_API)
+[Spotify API](https://developer.spotify.com/documentation/web-api?ref=apilist.fun)
 
 a screenshot of using a tool to try out the API (like https://www.postman.com/Links to an external site. or https://hoppscotch.io/Links to an external site.Links to an external site.)
 
