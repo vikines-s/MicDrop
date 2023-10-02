@@ -11,7 +11,7 @@ The main goal of the matching algorithms is optimization, i.e. finding one or mo
 
 ## Overview
 
-Our team is looking to create a music dating app called MicDrop (tentative) that matches people based on the similarity of their music taste. We will use the spotify API to read users listening history and trends and then match them based on similarity of the genres and artists they listen to, as well as location.
+Our team is looking to create a music dating app called MicDrop (tentative) that matches people based on the similarity of their music taste. Using the Spotify API, we can acess a user's listening history, made playlists, liked playlists, etc. to form a taste profile and assess complimentary profiles. We are able to use this data to create a multitude of options; a simple matching option based on similar tastes in genre or artists, an opposites attract section based on disimilarites, and more. (Potential add-on) Using a geo-location API, we can region lock the potential matches to a user given radius.
 
 ## API Options
 
