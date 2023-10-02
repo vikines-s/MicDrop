@@ -19,10 +19,13 @@ Our team is looking to create a music dating app called MicDrop (tentative) that
 
 ![alt text](https://github.com/vikines-s/week3project/blob/main/apiAcess.jpeg?raw=true)
 ![alt text](https://github.com/vikines-s/week3project/blob/main/tokenDetails.jpeg?raw=true)
+![alt text](https://github.com/vikines-s/week3project/blob/main/userInfoCall.jpeg?raw=true)
 
 ## Example Output
+`User Information:
+{  "display_name" : "applehatter",  "external_urls" : {    "spotify" : "https://open.spotify.com/user/applehatter"  },  "href" : "https://api.spotify.com/v1/users/applehatter",  "id" : "applehatter",  "images" : [ ],  "type" : "user",  "uri" : "spotify:user:applehatter",  "followers" : {    "href" : null,    "total" : 18  }}
+`
 
-![alt text](https://github.com/vikines-s/week3project/blob/main/userInfoCall.jpeg?raw=true)
 
 ## Technical Problems
 a list of any technical problems blocking progress (if any)
