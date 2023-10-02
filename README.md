@@ -27,4 +27,4 @@ User Information:
 
 
 ## Technical Problems
-a list of any technical problems blocking progress (if any)
+Our biggest technical challenges are related to accessing information from Spotify and implementing a potential geolocation API. We had quite a bit of trouble figuring out how we can access user information from this music app, and there will be quite the authorisation process each time someone logs in - we should implement this properly. Additionally, if we are to integrate a geolocation feature where people can view what potential matches in their vicinity are listening to, this will involve integrating both the Spotify and Geolocation API together, which would be quite the technical challenge.
