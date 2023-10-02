@@ -1,4 +1,4 @@
-# week3project
+t# week3project
 
 ## Domain
 
@@ -20,6 +20,9 @@ Our team is looking to create a music dating app called MicDrop (tentative) that
 a screenshot of using a tool to try out the API (like https://www.postman.com/ or https://hoppscotch.io/. Links to an external site.)
 
 ## Example Output
+
+![alt text](https://github.com/vikines-s/week3project/blob/main/userInfoCall.jpeg?raw=true)
+
 example output of running your Java code (see below).
 
 ## Technical Problems
