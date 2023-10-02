@@ -17,7 +17,7 @@ Our team is looking to create a music dating app called MicDrop (tentative) that
 
 [Spotify API](https://developer.spotify.com/documentation/web-api?ref=apilist.fun)
 
-![alt text](https://github.com/vikines-s/week3project/blob/main/apiAccess.jpeg?raw=true)
+![alt text](https://github.com/vikines-s/week3project/blob/main/apiAcess.jpeg?raw=true)
 ![alt text](https://github.com/vikines-s/week3project/blob/main/tokenDetails.jpeg?raw=true)
 
 ## Example Output
