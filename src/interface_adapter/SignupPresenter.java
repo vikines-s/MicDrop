@@ -1,4 +1,4 @@
 package interface_adapter;
 
-public class signupPresenter {
+public class SignupPresenter {
 }

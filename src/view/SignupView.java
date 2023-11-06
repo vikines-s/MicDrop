@@ -1,4 +1,4 @@
 package view;
 
-public class signupView {
+public class SignupView {
 }
