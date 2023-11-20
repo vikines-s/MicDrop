@@ -1,103 +1,128 @@
 package data_access;
 
+import entity.UserFactory;
+import entity.User;
 import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import se.michaelthelin.spotify.model_objects.specification.User;
+import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
+import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
+import se.michaelthelin.spotify.model_objects.specification.User;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutionException;
 
 public class SpotifyDataAccessObject {
-    private static final String clientId = "YOUR_CLIENT_ID";
-    private static final String clientSecret = "YOUR_CLIENT_SECRET";
-    private static final String redirectUri = "YOUR_REDIRECT_URI";
-    private static final String scope = "user-read-private user-read-email"; // Add the necessary scopes
+    private String clientId;
+    private String clientSecret;
+    private URI redirectURI;
+    private String scope = "user-read-private user-read-email";
+    private SpotifyApi spotifyApi;
 
-    public static void main(String[] args) {
-        // Step 1: Get Authorization Code by directing the user to Spotify authorization endpoint
-        String authorizationCode = getAuthorizationCodeUri();
 
-        // After the user grants permission, they will be redirected to the provided redirect URI
-        // Extract the authorization code from the redirect URI
+    private UserFactory userFactory;
 
-        // Step 2: Exchange Authorization Code for Access Token
-        AuthorizationCodeCredentials credentials = exchangeAuthorizationCodeForAccessToken(authorizationCode);
-
-        // Use the access token to make requests to the Spotify API
-        SpotifyApi spotifyApi = new SpotifyApi.Builder()
-                .setAccessToken(credentials.getAccessToken())
-                .build();
-
-        // Example: Get the user's information
-        getUserInfo(spotifyApi);
-    }
-
-    private static String getAuthorizationCodeUri() {
-        SpotifyApi spotifyApi = new SpotifyApi.Builder()
+    public SpotifyDataAccessObject(UserFactory userFactory, String clientId, String clientSecret, URI redirectURI, String scope) {
+        this.userFactory = userFactory;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
+        this.redirectURI = redirectURI; // SpotifyHttpManager.makeUri("https://example.com/spotify-redirect");
+        this.scope = scope;
+        this.spotifyApi = new SpotifyApi.Builder()
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
-                .setRedirectUri(URI.create(redirectUri))
+                .setRedirectUri(redirectURI)
                 .build();
+
+
+    }
+
+    public boolean signUpUser(User user) {
+
+        if (!getAuthorizationCodeURI(user)) {
+            return false;
+        }
+        if (!getAuthorizationTokens(user)) {
+            return false;
+        }
+
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
+
+        try {
+            se.michaelthelin.spotify.model_objects.specification.User spotifyUser = getCurrentUsersProfileRequest.execute();
+
+            // get relevant user info for the sign up case
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            return false;
+        }
+
+        return true;
+
+
+    }
+
+
+
+    public boolean refreshTokens(User user) {
+        AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh()
+                                                                          .build();
+        try {
+            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRefreshRequest.execute();
+            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
+
+            user.setRefreshTokenExpiry(authorizationCodeCredentials.getExpiresIn());
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public boolean getAuthorizationTokens(User user) {
+
+        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(user.getURI().toString())
+                                                            .build();
+
+        try {
+            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
+
+            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
+            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+
+            user.setRefreshTokenExpiry(authorizationCodeCredentials.getExpiresIn());
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public boolean getAuthorizationCodeURI(User user) {;
 
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
-                .scope(scope)
+//          .state("x4xkmn9pu3j6ukrs8n")
+//          .scope("user-read-birthdate,user-read-email")
+//          .show_dialog(true)
                 .build();
 
-        URI uri = authorizationCodeUriRequest.execute();
-        System.out.println("Please visit the following URL to authorize the application:");
-        System.out.println(uri);
-        return getAuthorizationCodeFromUser();
+
+        final URI uri = authorizationCodeUriRequest.execute();
+        user.setURI(uri);
+
+        return true;
+
     }
 
-    private static String getAuthorizationCodeFromUser() {
-        // After the user grants permission, they will be redirected to the provided redirect URI
-        // Extract the authorization code from the redirect URI
-        System.out.print("Enter the authorization code: ");
-        // Read user input or use your preferred method to get the authorization code
-        return ""; // Replace with your code to get user input
-    }
 
-    private static AuthorizationCodeCredentials exchangeAuthorizationCodeForAccessToken(String authorizationCode) {
-        SpotifyApi spotifyApi = new SpotifyApi.Builder()
-                .setClientId(clientId)
-                .setClientSecret(clientSecret)
-                .setRedirectUri(URI.create(redirectUri))
-                .build();
 
-        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(authorizationCode)
-                .build();
 
-        try {
-            return authorizationCodeRequest.execute();
-        } catch (CompletionException | CancellationException | IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error exchanging authorization code for access token: " + e.getMessage());
-            return null;
-        }
-    }
-
-    private static void getUserInfo(SpotifyApi spotifyApi) {
-        try {
-            CompletableFuture<User> userFuture = spotifyApi.getCurrentUsersProfile()
-                    .build()
-                    .executeAsync();
-
-            // Wait for the user information to be retrieved
-            User user = userFuture.join();
-
-            // Now you can use the user information as needed
-            System.out.println("User ID: " + user.getId());
-            System.out.println("Display Name: " + user.getDisplayName());
-            System.out.println("Email: " + user.getEmail());
-        } catch (Exception e) {
-            System.out.println("Error getting user information: " + e.getMessage());
-        }
-    }
 }
