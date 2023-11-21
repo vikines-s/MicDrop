@@ -23,6 +23,8 @@ public class DeleteAccountPresenter implements DeleteAccountOutputBoundary {
         String username = deletedUser.getDeletedUser();
         DeleteAccountState state = deleteAccountViewModel.getState();
         state.setUser(username);
+        viewManagerModel.setActiveView(signUpLogInViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
         deleteAccountViewModel.setState(state);
         deleteAccountViewModel.firePropertyChanged();
     }
