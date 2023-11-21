@@ -1,5 +1,5 @@
 package use_case.delete_account;
 
 public interface DeleteAccountOutputBoundary {
-    void prepareDeletedAccountView();
+    void prepareDeletedAccountView(DeleteAccountOutputData user);
 }
