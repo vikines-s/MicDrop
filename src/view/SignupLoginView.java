@@ -1,7 +1,6 @@
 package view;
 
 
-import interface_adapter.delete_account.DeleteAccountController;
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 
@@ -13,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 public class SignupLoginView extends JPanel implements ActionListener, PropertyChangeListener{
-    public final String viewName = "signup_login";
+    public final String viewName = "signup login";
     private final SignupLoginViewModel signupLoginViewModel;
     private final SignupLoginController signupLoginController;
     private final DeleteAccountViewModel deleteAccountViewModel;
