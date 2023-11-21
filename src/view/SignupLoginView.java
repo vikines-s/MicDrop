@@ -55,7 +55,7 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof DeleteAccountState) {
             DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
-            JOptionPane.showMessageDialog(this, state.getUser());
+            JOptionPane.showMessageDialog(this, "Deleted user: " + state.getUser());
         }
     }
 }
