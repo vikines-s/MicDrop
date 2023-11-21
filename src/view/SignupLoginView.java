@@ -17,18 +17,15 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
     private final SignupLoginViewModel signupLoginViewModel;
     private final SignupLoginController signupLoginController;
     private final DeleteAccountViewModel deleteAccountViewModel;
-    private final DeleteAccountController deleteAccountController;
     private final JButton signUpLogInButton;
 
 
     public SignupLoginView(SignupLoginViewModel signupLoginViewModel,
                            SignupLoginController signupLoginController,
-                           DeleteAccountViewModel deleteAccountViewModel,
-                           DeleteAccountController deleteAccountController) {
+                           DeleteAccountViewModel deleteAccountViewModel) {
         this.signupLoginViewModel = signupLoginViewModel;
         this.signupLoginController = signupLoginController;
         this.deleteAccountViewModel = deleteAccountViewModel;
-        this.deleteAccountController = deleteAccountController;
         signupLoginViewModel.addPropertyChangeListener(this);
         deleteAccountViewModel.addPropertyChangeListener(this);
 
