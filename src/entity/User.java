@@ -19,4 +19,8 @@ public interface User {
     void setTopArtists(ArrayList<String> artists);
 
     void setTopGenres(ArrayList<String> userGenres);
+
+    String getBirthdate();
+    ArrayList<String> getTopTracks();
+    ArrayList<String> getTopGenres();
 }

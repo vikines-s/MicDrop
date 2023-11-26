@@ -17,14 +17,10 @@ import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
-import se.michaelthelin.spotify.model_objects.specification.User;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 
 public class SpotifyDataAccessObject {
     private String clientId;
@@ -78,17 +74,8 @@ public class SpotifyDataAccessObject {
         URI authorisationCodeUri = getAuthorizationCodeURI();
         getAuthorizationTokens(authorisationCodeUri);
 
-        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
-
-        try {
-            se.michaelthelin.spotify.model_objects.specification.User spotifyUser = getCurrentUsersProfileRequest.execute();
-
-            getTopTracks(user);
-            getTopArtistsAndGenres(user);
-
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            throw new RuntimeException(e);
-        }
+        getTopTracks(user);
+        getTopArtistsAndGenres(user);
 
 
     }
