@@ -1,20 +1,27 @@
 package data_access;
 
-import entity.UserFactory;
 import entity.User;
+import entity.UserFactory;
 import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
+import se.michaelthelin.spotify.model_objects.specification.Artist;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
+import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
+import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 import se.michaelthelin.spotify.model_objects.specification.User;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -25,12 +32,10 @@ public class SpotifyDataAccessObject {
     private URI redirectURI;
     private String scope = "user-read-private user-read-email";
     private SpotifyApi spotifyApi;
-
-
     private UserFactory userFactory;
 
-    public SpotifyDataAccessObject(UserFactory userFactory, String clientId, String clientSecret, URI redirectURI, String scope) {
-        this.userFactory = userFactory;
+
+    public SpotifyDataAccessObject(String clientId, String clientSecret, URI redirectURI, String scope, UserFactory userFactory) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.redirectURI = redirectURI; // SpotifyHttpManager.makeUri("https://example.com/spotify-redirect");
@@ -40,36 +45,113 @@ public class SpotifyDataAccessObject {
                 .setClientSecret(clientSecret)
                 .setRedirectUri(redirectURI)
                 .build();
+        this.userFactory = userFactory;
 
 
     }
 
-    public boolean signUpUser(User user) {
+    public User signUpUser() {
 
-        if (!getAuthorizationCodeURI(user)) {
-            return false;
-        }
-        if (!getAuthorizationTokens(user)) {
-            return false;
-        }
+        URI authorisationCodeUri = getAuthorizationCodeURI();
+        getAuthorizationTokens(authorisationCodeUri);
 
         GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
 
         try {
             se.michaelthelin.spotify.model_objects.specification.User spotifyUser = getCurrentUsersProfileRequest.execute();
 
-            // get relevant user info for the sign up case
+            User user = userFactory.create(spotifyUser.getDisplayName());
+            user.setBirthdate(spotifyUser.getBirthdate());
+            getTopTracks(user);
+            getTopArtistsAndGenres(user);
+
+            return user;
+
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            return false;
+            throw new RuntimeException(e);
         }
 
-        return true;
 
+    }
+
+    public void updateUserData(User user) {
+        URI authorisationCodeUri = getAuthorizationCodeURI();
+        getAuthorizationTokens(authorisationCodeUri);
+
+        GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
+
+        try {
+            se.michaelthelin.spotify.model_objects.specification.User spotifyUser = getCurrentUsersProfileRequest.execute();
+
+            getTopTracks(user);
+            getTopArtistsAndGenres(user);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    private void getTopTracks(User user) {
+
+        try {
+            GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi.getUsersTopTracks().build();
+            Paging<Track> trackPaging = getUsersTopTracksRequest.execute();
+            Track[] tracks = trackPaging.getItems();
+            ArrayList<String> userTracks = new ArrayList<String>();
+
+            for (int i = 0; i < 5; i++) {
+                userTracks.add(tracks[i].toString());
+            }
+
+            user.setTopTracks(userTracks);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void getTopArtistsAndGenres(User user) {
+        try {
+            GetUsersTopArtistsRequest getUsersTopArtistsRequest = spotifyApi.getUsersTopArtists().build();
+            Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
+            Artist[] artists = artistPaging.getItems();
+            ArrayList<String> userArtists = new ArrayList<String>();
+            ArrayList<String> userGenres = new ArrayList<String>();
+
+            for (int i = 0; i < 5; i++) {
+                String artistId = artists[i].getName();
+                userGenres.add(getArtistGenre(artistId));
+                userArtists.add(artists[i].toString());
+            }
+
+            user.setTopTracks(userArtists);
+            user.setTopGenres(userGenres);
+
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
 
 
+    private String getArtistGenre(String artistId) {
+
+        GetArtistRequest getArtistRequest = spotifyApi.getArtist(artistId).build();
+        try {
+            final Artist artist = getArtistRequest.execute();
+
+            return artist.getGenres()[0];
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+/**
     public boolean refreshTokens(User user) {
         AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh()
                                                                           .build();
@@ -86,9 +168,11 @@ public class SpotifyDataAccessObject {
 
     }
 
-    public boolean getAuthorizationTokens(User user) {
+ **/
 
-        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(user.getURI().toString())
+    private void getAuthorizationTokens(URI uri) {
+
+        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(uri.toString())
                                                             .build();
 
         try {
@@ -97,16 +181,14 @@ public class SpotifyDataAccessObject {
             spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
             spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
-            user.setRefreshTokenExpiry(authorizationCodeCredentials.getExpiresIn());
+            // user.setRefreshTokenExpiry(authorizationCodeCredentials.getExpiresIn()); TODO: check whether needed
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            return false;
+            throw new RuntimeException(e);
         }
-
-        return true;
 
     }
 
-    public boolean getAuthorizationCodeURI(User user) {;
+    private URI getAuthorizationCodeURI() {;
 
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
 //          .state("x4xkmn9pu3j6ukrs8n")
@@ -114,11 +196,7 @@ public class SpotifyDataAccessObject {
 //          .show_dialog(true)
                 .build();
 
-
-        final URI uri = authorizationCodeUriRequest.execute();
-        user.setURI(uri);
-
-        return true;
+        return authorizationCodeUriRequest.execute();
 
     }
 
