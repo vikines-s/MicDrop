@@ -3,6 +3,7 @@ package view;
 
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.signup_login.SignupLoginViewModel;
 
 
 import javax.swing.*;
@@ -14,16 +15,20 @@ import java.beans.PropertyChangeListener;
 public class SignupLoginView extends JPanel implements ActionListener, PropertyChangeListener{
     public final String viewName = "signup login";
     private final SignupLoginViewModel signupLoginViewModel;
-    private final SignupLoginController signupLoginController;
+    private final SignupController signupController;
+    private final LoginController loginController;
     private final DeleteAccountViewModel deleteAccountViewModel;
-    private final JButton signUpLogInButton;
+    private final JButton signUpButton;
+    private final JButton logInButton;
 
 
     public SignupLoginView(SignupLoginViewModel signupLoginViewModel,
-                           SignupLoginController signupLoginController,
+                           SignupController signupController,
+                           LoginController loginController,
                            DeleteAccountViewModel deleteAccountViewModel) {
         this.signupLoginViewModel = signupLoginViewModel;
-        this.signupLoginController = signupLoginController;
+        this.signupController = signupController;
+        this.loginController = loginController;
         this.deleteAccountViewModel = deleteAccountViewModel;
         signupLoginViewModel.addPropertyChangeListener(this);
         deleteAccountViewModel.addPropertyChangeListener(this);
@@ -32,14 +37,25 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttons = new JPanel();
-        signUpLogInButton = new JButton(SignupLoginViewModel.SIGNUP_LOGIN_BUTTON_LABEL);
-        buttons.add(signUpLogInButton);
+        signUpButton = new JButton(SignupLoginViewModel.SIGNUP_BUTTON_LABEL);
+        buttons.add(signUpButton);
+        logInButton = new JButton(SignupLoginViewModel.LOGIN_BUTTON_LABEL);
+        buttons.add(logInButton);
 
-        signUpLogInButton.addActionListener(
+        signUpButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(signUpLogInButton)){
-                            signupLoginController.execute();
+                        if (e.getSource().equals(signUpButton)){
+                            signupController.execute();
+                        }
+                    }
+                }
+        );
+        logInButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(logInButton)){
+                            loginController.execute();
                         }
                     }
                 }
@@ -47,10 +63,10 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
-        this.add(signUpLogInButton);
+        this.add(signUpButton);
+        this.add(logInButton);
     }
     public void actionPerformed(ActionEvent e){
-
     }
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof DeleteAccountState) {
