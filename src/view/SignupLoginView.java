@@ -63,10 +63,10 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
-        this.add(signUpButton);
-        this.add(logInButton);
+        this.add(buttons);
     }
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("Click " + e.getActionCommand());
     }
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getNewValue() instanceof DeleteAccountState) {
