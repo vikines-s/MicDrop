@@ -1,18 +1,17 @@
-package interface_adapter.signup_login;
+package interface_adapter.signup;
 
-import use_case.signup_login.SignUpLogInInputBoundary;
+import use_case.signup.*;
 
-public class SignUpLogInController {
+public class SignUpController {
 
-    final SignUpLogInInputBoundary signUpLogInInteractor;
+    final SignUpInputBoundary signUpUseCaseInteractor;
 
-    public SignUpLogInController(SignUpLogInInputBoundary signUpLogInInteractor) {
-        this.signUpLogInInteractor = signUpLogInInteractor;
+    public SignUpController(SignUpInputBoundary signUpUseCaseInteractor) {
+        this.signUpUseCaseInteractor = signUpUseCaseInteractor;
     }
 
-    public void execute() {
-        signUpLogInInteractor.execute();
+    public void execute(String username) {
+        SignUpInputData signupInputData = new SignUpInputData(username);
+        signUpUseCaseInteractor.execute(signupInputData);
     }
-
-
 }
