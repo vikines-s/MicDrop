@@ -3,7 +3,7 @@ package view;
 
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
-import interface_adapter.signup_login.SignupLoginViewModel;
+import interface_adapter.signup.SignUpViewModel;
 
 
 import javax.swing.*;
@@ -14,7 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 public class SignupLoginView extends JPanel implements ActionListener, PropertyChangeListener{
     public final String viewName = "signup login";
-    private final SignupLoginViewModel signupLoginViewModel;
+    private final SignUpViewModel signUpViewModel;
     private final SignupController signupController;
     private final LoginController loginController;
     private final DeleteAccountViewModel deleteAccountViewModel;
@@ -22,24 +22,24 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
     private final JButton logInButton;
 
 
-    public SignupLoginView(SignupLoginViewModel signupLoginViewModel,
+    public SignupLoginView(SignUpViewModel signUpViewModel,
                            SignupController signupController,
                            LoginController loginController,
                            DeleteAccountViewModel deleteAccountViewModel) {
-        this.signupLoginViewModel = signupLoginViewModel;
+        this.signUpViewModel = signUpViewModel;
         this.signupController = signupController;
         this.loginController = loginController;
         this.deleteAccountViewModel = deleteAccountViewModel;
-        signupLoginViewModel.addPropertyChangeListener(this);
+        signUpViewModel.addPropertyChangeListener(this);
         deleteAccountViewModel.addPropertyChangeListener(this);
 
-        JLabel title = new JLabel(SignupLoginViewModel.TITLE_LABEL);
+        JLabel title = new JLabel(SignUpViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPanel buttons = new JPanel();
-        signUpButton = new JButton(SignupLoginViewModel.SIGNUP_BUTTON_LABEL);
+        signUpButton = new JButton(SignUpViewModel.SIGNUP_BUTTON_LABEL);
         buttons.add(signUpButton);
-        logInButton = new JButton(SignupLoginViewModel.LOGIN_BUTTON_LABEL);
+        logInButton = new JButton(SignUpViewModel.LOGIN_BUTTON_LABEL);
         buttons.add(logInButton);
 
         signUpButton.addActionListener(

@@ -17,12 +17,13 @@ import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
+import use_case.signup.SignUpSpotifyAccessInterface;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 
-public class SpotifyDataAccessObject {
+public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface {
     private String clientId;
     private String clientSecret;
     private URI redirectURI;
