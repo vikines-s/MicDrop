@@ -2,19 +2,21 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
+import use_case.signup.SignUpSpotifyAccessInterface;
+import use_case.signup.SignUpUserDataAccessInterface;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
-public class FileUserDataAcessObject {
+//TODO make sure to implement all required interfaces for this DAO
+public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
     private final Map<String, User> accounts = new HashMap<>();
     private UserFactory userFactory;
 
-    public FileUserDataAcessObject(String csvPath, UserFactory userFactory) throws IOException {
+    public FileUserSpotifyAcessObject(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
 
         csvFile = new File(csvPath);
