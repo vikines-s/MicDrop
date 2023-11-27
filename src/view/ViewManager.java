@@ -1,3 +1,4 @@
+package view;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.ViewModel;
