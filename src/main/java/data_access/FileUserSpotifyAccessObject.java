@@ -2,21 +2,21 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
-import use_case.signup.SignUpSpotifyAccessInterface;
+import use_case.match.MatchDataAccessObject;
 import use_case.signup.SignUpUserDataAccessInterface;
 
 import java.io.*;
 import java.util.*;
 
 //TODO make sure to implement all required interfaces for this DAO
-public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface {
+public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterface, MatchDataAccessObject {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
-    private final Map<String, User> accounts = new HashMap<>();
+    private final HashMap<String, User> accounts = new HashMap<>();
     private UserFactory userFactory;
 
-    public FileUserSpotifyAcessObject(String csvPath, UserFactory userFactory) throws IOException {
+    public FileUserSpotifyAccessObject(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
 
         csvFile = new File(csvPath);
@@ -26,7 +26,7 @@ public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface
         headers.put("top_tracks", 2);
         headers.put("top_artists", 3);
         headers.put("top_genres", 4);
-        // headers.put("creation time", 1); TODO: have to figure out if we need to keep track of creation time
+        // headers.put("creation time", 5); TODO: have to figure out if we need to keep track of creation time
 
         if (csvFile.length() == 0) {
             save();
@@ -75,6 +75,9 @@ public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface
         this.save();
     }
 
+    public HashMap getAccounts() {
+        return accounts;
+    }
     public User get(String username) {
         return accounts.get(username);
     }
