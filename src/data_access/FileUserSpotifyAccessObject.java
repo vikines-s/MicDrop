@@ -2,6 +2,7 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
+import use_case.delete_account.DeleteAccountDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 import use_case.signup.SignUpUserDataAccessInterface;
 
@@ -9,7 +10,7 @@ import java.io.*;
 import java.util.*;
 
 //TODO make sure to implement all required interfaces for this DAO
-public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface {
+public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface, DeleteAccountDataAccessInterface {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
@@ -75,6 +76,9 @@ public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface
         this.save();
     }
 
+    public void deleteAccount(String username) {
+        accounts.remove(username);
+    }
     public User get(String username) {
         return accounts.get(username);
     }
