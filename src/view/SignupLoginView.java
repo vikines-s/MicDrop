@@ -76,6 +76,15 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                     }
                 }
         );
+        getAuthCodeButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(getAuthCodeButton)) {
+                            getAuthCodeController.execute();
+                        }
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
