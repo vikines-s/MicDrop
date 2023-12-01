@@ -7,6 +7,7 @@ import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 import interface_adapter.get_auth_code.GetAuthCodeController;
+import interface_adapter.get_auth_code.GetAuthCodeViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignUpController;
@@ -24,11 +25,11 @@ import java.net.URI;
 public class SignUpUseCaseFactory {
 
     private SignUpUseCaseFactory() {}
-    public static SignupLoginView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignUpViewModel signupViewModel, LoginController loginController, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) {
+    public static SignupLoginView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignUpViewModel signupViewModel, GetAuthCodeViewModel getAuthCodeViewModel, LoginController loginController, GetAuthCodeController getAuthCodeController, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) {
 
         try {
             SignUpController signupController = createUserSignupUseCase(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, spotifyDataAccessObject);
-            return new SignupLoginView(signupViewModel, signupController, loginController, new GetAuthCodeController(), new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY and the GetAuthCodeController
+            return new SignupLoginView(signupViewModel, signupController, loginController, getAuthCodeViewModel, getAuthCodeController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY and the GetAuthCodeController
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

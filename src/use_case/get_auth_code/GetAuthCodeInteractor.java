@@ -1,5 +1,7 @@
 package use_case.get_auth_code;
 
+import java.net.URI;
+
 public class GetAuthCodeInteractor implements GetAuthCodeInputBoundary {
 
     final GetAuthCodeDataAccessInterface spotifyDataAccessObject;
@@ -12,6 +14,10 @@ public class GetAuthCodeInteractor implements GetAuthCodeInputBoundary {
 
     @Override
     public void execute() {
+        spotifyDataAccessObject.clearAuthorization();
+        URI uri = spotifyDataAccessObject.getAuthorizationCodeURI();
+        GetAuthCodeOutputData getAuthCodeOutputData = new GetAuthCodeOutputData(uri);
+        getAuthCodePresenter.prepareSuccessView(getAuthCodeOutputData);
 
     }
 }
