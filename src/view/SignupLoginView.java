@@ -4,23 +4,32 @@ package view;
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
 import interface_adapter.get_auth_code.GetAuthCodeController;
+import interface_adapter.get_auth_code.GetAuthCodeState;
+import interface_adapter.get_auth_code.GetAuthCodeViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpViewModel;
 
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Objects;
+
 public class SignupLoginView extends JPanel implements ActionListener, PropertyChangeListener{
     public final String viewName = "signup login";
     private final SignUpViewModel signUpViewModel;
     private final SignUpController signupController;
     private final LoginController loginController;
     private final GetAuthCodeController getAuthCodeController;
+    private final GetAuthCodeViewModel getAuthCodeViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
     private final JTextField usernameInputField = new JTextField(15);
     private final JTextField authorizationCodeInputField = new JTextField(15);
@@ -32,15 +41,18 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
     public SignupLoginView(SignUpViewModel signUpViewModel,
                            SignUpController signupController,
                            LoginController loginController,
+                           GetAuthCodeViewModel getAuthCodeViewModel,
                            GetAuthCodeController getAuthCodeController,
                            DeleteAccountViewModel deleteAccountViewModel) {
         this.signUpViewModel = signUpViewModel;
         this.signupController = signupController;
         this.loginController = loginController;
+        this.getAuthCodeViewModel = getAuthCodeViewModel;
         this.getAuthCodeController = getAuthCodeController;
         this.deleteAccountViewModel = deleteAccountViewModel;
         signUpViewModel.addPropertyChangeListener(this);
         deleteAccountViewModel.addPropertyChangeListener(this);
+        getAuthCodeViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(SignUpViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -76,6 +88,15 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                     }
                 }
         );
+        getAuthCodeButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(getAuthCodeButton)) {
+                            getAuthCodeController.execute();
+                        }
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -90,6 +111,32 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
         if (evt.getNewValue() instanceof DeleteAccountState) {
             DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
             JOptionPane.showMessageDialog(this, "Deleted user: " + state.getUser());
+        } else if (evt.getNewValue() instanceof GetAuthCodeState state) {
+            Font font = new Font("Tahoma", Font.PLAIN, 24);
+            StringBuffer style = new StringBuffer("font-family:" + font.getFamily() + ";");
+            style.append("font-weight:" + (font.isBold() ? "bold" : "normal") + ";");
+            style.append("font-size:" + font.getSize() + "pt;");
+            String uriString = state.getAuthorizationCodeUri().toString();
+            JEditorPane ep = new JEditorPane("text/html", "<html><body style=\"" + style + "\">" //
+                    + "Click on <a href=\""+ uriString +"\">this link</a> to authorize" //
+                    + "</body></html>");
+            ep.addHyperlinkListener(new HyperlinkListener()
+            {
+                @Override
+                public void hyperlinkUpdate(HyperlinkEvent e)
+                {
+                    if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+                        try {
+                            Desktop.getDesktop().browse(e.getURL().toURI()); // roll your own link launcher or use Desktop if J6+
+                        } catch (IOException | URISyntaxException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                }
+            });
+
+            ep.setEditable(false);
+            JOptionPane.showMessageDialog(this, ep);
         }
     }
 }

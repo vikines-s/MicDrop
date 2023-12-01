@@ -4,6 +4,8 @@ import data_access.FileUserSpotifyAccessObject;
 import data_access.SpotifyDataAccessObject;
 import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.get_auth_code.GetAuthCodeController;
+import interface_adapter.get_auth_code.GetAuthCodeViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignUpController;
@@ -36,6 +38,7 @@ public class Main {
 
         SignUpViewModel signUpViewModel = new SignUpViewModel();
         LoginViewModel loginViewModel = new LoginViewModel();
+        GetAuthCodeViewModel getAuthCodeViewModel = new GetAuthCodeViewModel();
         // TODO: ADD THE OTHER VIEW MODELS ONCE WE FINISH THEM / FINISH TEST
 
         FileUserSpotifyAccessObject fileUserDataAccessObject;
@@ -54,7 +57,9 @@ public class Main {
         String SCOPE = "user-read-private,user-top-read,user-follow-read";
         spotifyDataAccessObject = new SpotifyDataAccessObject(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, SCOPE, userFactory);
 
-        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel, new LoginController(), fileUserDataAccessObject, spotifyDataAccessObject);
+        GetAuthCodeController getAuthCodeController = GetAuthCodeUseCaseFactory.createGetAuthCodeUseCase(getAuthCodeViewModel, spotifyDataAccessObject);
+
+        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel, getAuthCodeViewModel, new LoginController(), getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
         views.add(signupLoginView);
 
         viewManagerModel.setActiveView(signupLoginView.viewName);
