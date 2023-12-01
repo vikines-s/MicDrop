@@ -10,6 +10,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logout.LogOutController;
+import interface_adapter.matches.MatchesController;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "logged in";
@@ -21,7 +23,6 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final JButton logOutButton;
     private final JButton deleteAccountButton;
     JLabel username;
-
 
     public LoggedInView(DeleteAccountController deleteAccountController, MatchesController matchesController,
                         LogOutController logOutController, LoggedInViewModel loggedInViewModel) {

@@ -22,12 +22,15 @@ import use_case.signup.SignUpSpotifyAccessInterface;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface {
     private String clientId;
     private String clientSecret;
     private URI redirectURI;
-    private String scope = "user-read-private user-read-email";
+    private String scope;
     private SpotifyApi spotifyApi;
     private UserFactory userFactory;
 
@@ -180,7 +183,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface {
 
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
 //          .state("x4xkmn9pu3j6ukrs8n")
-//          .scope("user-read-birthdate,user-read-email")
+            .scope("user-read-private,user-top-read,user-follow-read") // TODO take scope from Spotify API here
 //          .show_dialog(true)
                 .build();
 
