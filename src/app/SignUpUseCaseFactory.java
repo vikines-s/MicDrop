@@ -6,6 +6,7 @@ import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.get_auth_code.GetAuthCodeController;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignUpController;
@@ -27,7 +28,7 @@ public class SignUpUseCaseFactory {
 
         try {
             SignUpController signupController = createUserSignupUseCase(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, spotifyDataAccessObject);
-            return new SignupLoginView(signupViewModel, signupController, loginController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY
+            return new SignupLoginView(signupViewModel, signupController, loginController, new GetAuthCodeController(), new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY and the GetAuthCodeController
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }
