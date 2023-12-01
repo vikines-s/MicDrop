@@ -2,6 +2,7 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
+import use_case.login.LogInUserDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 import use_case.signup.SignUpUserDataAccessInterface;
 
@@ -9,7 +10,7 @@ import java.io.*;
 import java.util.*;
 
 //TODO make sure to implement all required interfaces for this DAO
-public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface {
+public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface, LogInUserDataAccessInterface {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
