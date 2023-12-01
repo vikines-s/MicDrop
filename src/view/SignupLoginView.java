@@ -3,6 +3,8 @@ package view;
 
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.login.LoginController;
+import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpViewModel;
 
 
@@ -15,7 +17,7 @@ import java.beans.PropertyChangeListener;
 public class SignupLoginView extends JPanel implements ActionListener, PropertyChangeListener{
     public final String viewName = "signup login";
     private final SignUpViewModel signUpViewModel;
-    private final SignupController signupController;
+    private final SignUpController signupController;
     private final LoginController loginController;
     private final DeleteAccountViewModel deleteAccountViewModel;
     private final JButton signUpButton;
@@ -23,7 +25,7 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
 
 
     public SignupLoginView(SignUpViewModel signUpViewModel,
-                           SignupController signupController,
+                           SignUpController signupController,
                            LoginController loginController,
                            DeleteAccountViewModel deleteAccountViewModel) {
         this.signUpViewModel = signUpViewModel;
@@ -46,7 +48,7 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(signUpButton)){
-                            signupController.execute();
+                            signupController.execute("username"); // TODO: ADD USERNAME
                         }
                     }
                 }

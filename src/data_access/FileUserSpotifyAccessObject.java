@@ -9,14 +9,14 @@ import java.io.*;
 import java.util.*;
 
 //TODO make sure to implement all required interfaces for this DAO
-public class FileUserSpotifyAcessObject implements SignUpUserDataAccessInterface {
+public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterface {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
     private final Map<String, User> accounts = new HashMap<>();
     private UserFactory userFactory;
 
-    public FileUserSpotifyAcessObject(String csvPath, UserFactory userFactory) throws IOException {
+    public FileUserSpotifyAccessObject(String csvPath, UserFactory userFactory) throws IOException {
         this.userFactory = userFactory;
 
         csvFile = new File(csvPath);

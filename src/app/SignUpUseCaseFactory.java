@@ -2,9 +2,11 @@ package app;
 
 import data_access.FileUserSpotifyAccessObject;
 import data_access.SpotifyDataAccessObject;
+import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpPresenter;
@@ -21,10 +23,10 @@ import java.net.URI;
 public class SignUpUseCaseFactory {
 
     private SignUpUseCaseFactory() {}
-    public static SignupLoginView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignUpViewModel signupViewModel, LoginController loginController) {
+    public static SignupLoginView create(ViewManagerModel viewManagerModel, LoginViewModel loginViewModel, SignUpViewModel signupViewModel, LoginController loginController, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) {
 
         try {
-            SignUpController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel);
+            SignUpController signupController = createUserSignupUseCase(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, spotifyDataAccessObject);
             return new SignupLoginView(signupViewModel, signupController, loginController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
