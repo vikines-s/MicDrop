@@ -1,6 +1,7 @@
 package interface_adapter.login;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logged_in.LoggedInViewModel;
 import use_case.login.LogInOutputBoundary;
 import use_case.login.LogInOutputData;
@@ -18,6 +19,9 @@ public class LogInPresenter implements LogInOutputBoundary {
     }
 
     public void prepareSuccessView(LogInOutputData user) {
+        LoggedInState state = loggedInViewModel.getState();
+        state.setUsername(user.getUsername());
+        state.set
 
     }
     @Override
