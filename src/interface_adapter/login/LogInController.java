@@ -1,12 +1,15 @@
 package interface_adapter.login;
 
 import use_case.login.LogInInputBoundary;
+import use_case.login.LogInInputData;
 
 public class LogInController {
     final LogInInputBoundary logInUseCaseInteractor;
     public LogInController(LogInInputBoundary logInUseCaseInteractor){
         this.logInUseCaseInteractor = logInUseCaseInteractor;
     }
-    //TODO: implement the execute method
-    public void execute(){}
+    public void execute(String username){
+        LogInInputData logInInputData = new LogInInputData(username);
+        this.logInUseCaseInteractor.execute(logInInputData);
+    }
 }
