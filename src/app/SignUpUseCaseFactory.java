@@ -2,10 +2,16 @@ package app;
 
 import data_access.FileUserSpotifyAccessObject;
 import data_access.SpotifyDataAccessObject;
+import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+
+import interface_adapter.get_auth_code.GetAuthCodeController;
+import interface_adapter.get_auth_code.GetAuthCodeViewModel;
+import interface_adapter.login.LogInController;
 import interface_adapter.login.LogInViewModel;
+
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpPresenter;
 import interface_adapter.signup.SignUpViewModel;
@@ -20,11 +26,11 @@ import java.io.IOException;
 public class SignUpUseCaseFactory {
 
     private SignUpUseCaseFactory() {}
-    public static SignupLoginView create(ViewManagerModel viewManagerModel, LogInViewModel loginViewModel, SignUpViewModel signupViewModel, LoginController loginController) {
+    public static SignupLoginView create(ViewManagerModel viewManagerModel, LogInViewModel loginViewModel, SignUpViewModel signupViewModel, GetAuthCodeViewModel getAuthCodeViewModel, LogInController loginController, GetAuthCodeController getAuthCodeController, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) {
 
         try {
-            SignUpController signupController = createUserSignupUseCase(viewManagerModel, signupViewModel, loginViewModel);
-            return new SignupLoginView(signupViewModel, signupController, loginController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY
+            SignUpController signupController = createUserSignupUseCase(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, spotifyDataAccessObject);
+            return new SignupLoginView(signupViewModel, signupController, loginController, getAuthCodeViewModel, getAuthCodeController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY and the GetAuthCodeController
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

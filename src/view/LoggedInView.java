@@ -10,6 +10,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logout.LogOutController;
+import interface_adapter.matches.MatchesController;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "logged in";
@@ -21,7 +23,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final JButton logOutButton;
     private final JButton deleteAccountButton;
     JLabel username;
-
+    JLabel topTracks;
+    JLabel topArtists;
+    JLabel topGenres;
 
     public LoggedInView(DeleteAccountController deleteAccountController, MatchesController matchesController,
                         LogOutController logOutController, LoggedInViewModel loggedInViewModel) {
@@ -36,6 +40,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
 
         JLabel usernameInfo = new JLabel("Currently logged in: ");
         username = new JLabel();
+        topTracks = new JLabel();
+        topArtists = new JLabel();
+        topGenres = new JLabel();
 
         JPanel buttons = new JPanel();
         matchesButton = new JButton(loggedInViewModel.MATCHES_BUTTON_LABEL);
@@ -78,6 +85,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(title);
         this.add(usernameInfo);
         this.add(username);
+        this.add(topTracks);
+        this.add(topArtists);
+        this.add(topGenres);
         this.add(buttons);
     }
     public void actionPerformed(ActionEvent e) {System.out.println("Click " + e.getActionCommand());}
@@ -85,6 +95,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         if (evt.getNewValue() instanceof LoggedInState) {
             LoggedInState state = (LoggedInState) evt.getNewValue();
             username.setText(state.getUsername());
+            topTracks.setText("Top Tracks: " + state.getTopTracks());
+            topArtists.setText("top Artists: " + state.getTopArtists());
+            topGenres.setText("Top Genres: " + state.getTopGenres());
         }
     }
 }
