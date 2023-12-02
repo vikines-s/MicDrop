@@ -2,6 +2,7 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
+import use_case.match.MatchDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 import use_case.signup.SignUpUserDataAccessInterface;
 
@@ -9,11 +10,11 @@ import java.io.*;
 import java.util.*;
 
 //TODO make sure to implement all required interfaces for this DAO
-public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterface {
+public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterface, MatchDataAccessInterface {
 
     private final File csvFile;
     private final Map<String, Integer> headers = new LinkedHashMap<>();
-    private final Map<String, User> accounts = new HashMap<>();
+    public final HashMap<String, User> accounts = new HashMap<>();
     private UserFactory userFactory;
 
     public FileUserSpotifyAccessObject(String csvPath, UserFactory userFactory) throws IOException {
@@ -75,6 +76,10 @@ public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterfac
         this.save();
     }
 
+    public HashMap getAccounts() {
+        return accounts;
+    }
+
     public User get(String username) {
         return accounts.get(username);
     }
@@ -90,6 +95,8 @@ public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterfac
             return true;
         }
     }
+
+
 
     private void save() {
         BufferedWriter writer;
