@@ -16,4 +16,7 @@ public class LogInOutputData {
         this.topGenres = topGenres;
     }
     public String getUsername() { return this.username; }
+    public String getTopTracks() { return String.join(" ", this.topTracks); }
+    public String getTopArtists() { return String.join(" ", this.topArtists); }
+    public String getTopGenres() { return String.join(" ", this.topGenres); }
 }

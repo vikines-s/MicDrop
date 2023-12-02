@@ -21,8 +21,14 @@ public class LogInPresenter implements LogInOutputBoundary {
     public void prepareSuccessView(LogInOutputData user) {
         LoggedInState state = loggedInViewModel.getState();
         state.setUsername(user.getUsername());
-        state.set
+        state.setTopTracks(user.getTopTracks());
+        state.setTopArtists(user.getTopArtists());
+        state.setTopGenres(user.getTopGenres());
+        this.loggedInViewModel.setState(state);
+        this.loggedInViewModel.firePropertyChanged();
 
+        this.viewManagerModel.setActiveView(loggedInViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
     @Override
     public void prepareFailView(String error) {
