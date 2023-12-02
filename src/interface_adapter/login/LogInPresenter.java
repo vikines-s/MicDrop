@@ -20,9 +20,10 @@ public class LogInPresenter implements LogInOutputBoundary {
     public void prepareSuccessView(LogInOutputData user) {
 
     }
-
     @Override
     public void prepareFailView(String error) {
-
+        LogInState state = logInViewModel.getState();
+        state.setUsernameError(error);
+        logInViewModel.firePropertyChanged();
     }
 }
