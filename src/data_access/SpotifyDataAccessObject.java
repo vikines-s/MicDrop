@@ -17,18 +17,23 @@ import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
+
 import use_case.login.LogInSpotifyAccessInterface;
+import use_case.get_auth_code.GetAuthCodeDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
-public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, LogInSpotifyAccessInterface {
+public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, GetAuthCodeDataAccessInterface, LogInSpotifyAccessInterface {
     private String clientId;
     private String clientSecret;
     private URI redirectURI;
-    private String scope = "user-read-private user-read-email";
+    private String scope;
     private SpotifyApi spotifyApi;
     private UserFactory userFactory;
 
@@ -70,6 +75,11 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Lo
         }
 
 
+    }
+
+    public void clearAuthorization() {
+        spotifyApi.setAccessToken(null);
+        spotifyApi.setRefreshToken(null);
     }
 
     public void updateUserData(User user) {
@@ -177,11 +187,11 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Lo
 
     }
 
-    private URI getAuthorizationCodeURI() {;
+    public URI getAuthorizationCodeURI() {;
 
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
 //          .state("x4xkmn9pu3j6ukrs8n")
-//          .scope("user-read-birthdate,user-read-email")
+            .scope("user-read-private,user-top-read,user-follow-read") // TODO take scope from Spotify API here
 //          .show_dialog(true)
                 .build();
 
