@@ -7,6 +7,5 @@ public class LogInController {
     public LogInController(LogInInputBoundary logInUseCaseInteractor){
         this.logInUseCaseInteractor = logInUseCaseInteractor;
     }
-    //TODO: implement the execute method
     public void execute(){}
 }

@@ -32,7 +32,7 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
     private final SignUpViewModel signUpViewModel;
     private final LogInViewModel logInViewModel;
     private final SignUpController signupController;
-    private final LogInController loginController;
+    private final LogInController logInController;
     private final GetAuthCodeController getAuthCodeController;
     private final GetAuthCodeViewModel getAuthCodeViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
