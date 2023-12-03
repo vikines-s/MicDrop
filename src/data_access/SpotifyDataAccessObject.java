@@ -17,6 +17,8 @@ import se.michaelthelin.spotify.requests.data.artists.GetArtistRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
+
+import use_case.login.LogInSpotifyAccessInterface;
 import use_case.get_auth_code.GetAuthCodeDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 
@@ -27,7 +29,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
-public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, GetAuthCodeDataAccessInterface {
+public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, GetAuthCodeDataAccessInterface, LogInSpotifyAccessInterface {
     private String clientId;
     private String clientSecret;
     private URI redirectURI;

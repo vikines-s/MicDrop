@@ -3,12 +3,16 @@ package view;
 
 import interface_adapter.delete_account.DeleteAccountState;
 import interface_adapter.delete_account.DeleteAccountViewModel;
+import interface_adapter.login.LogInState;
 import interface_adapter.get_auth_code.GetAuthCodeController;
 import interface_adapter.get_auth_code.GetAuthCodeState;
 import interface_adapter.get_auth_code.GetAuthCodeViewModel;
-import interface_adapter.login.LoginController;
+import interface_adapter.login.LogInController;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpViewModel;
+import interface_adapter.signup.SignUpController;
+import interface_adapter.login.LogInController;
+import interface_adapter.login.LogInViewModel;
 
 
 import javax.swing.*;
@@ -26,8 +30,9 @@ import java.util.Objects;
 public class SignupLoginView extends JPanel implements ActionListener, PropertyChangeListener{
     public final String viewName = "signup login";
     private final SignUpViewModel signUpViewModel;
+    private final LogInViewModel logInViewModel;
     private final SignUpController signupController;
-    private final LoginController loginController;
+    private final LogInController logInController;
     private final GetAuthCodeController getAuthCodeController;
     private final GetAuthCodeViewModel getAuthCodeViewModel;
     private final DeleteAccountViewModel deleteAccountViewModel;
@@ -38,19 +43,21 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
     private final JButton logInButton;
 
 
-    public SignupLoginView(SignUpViewModel signUpViewModel,
+    public SignupLoginView(SignUpViewModel signUpViewModel,LogInViewModel logInViewModel,
                            SignUpController signupController,
-                           LoginController loginController,
+                           LogInController logInController,
                            GetAuthCodeViewModel getAuthCodeViewModel,
                            GetAuthCodeController getAuthCodeController,
                            DeleteAccountViewModel deleteAccountViewModel) {
         this.signUpViewModel = signUpViewModel;
+        this.logInViewModel = logInViewModel;
         this.signupController = signupController;
-        this.loginController = loginController;
+        this.logInController = logInController;
         this.getAuthCodeViewModel = getAuthCodeViewModel;
         this.getAuthCodeController = getAuthCodeController;
         this.deleteAccountViewModel = deleteAccountViewModel;
         signUpViewModel.addPropertyChangeListener(this);
+        logInViewModel.addPropertyChangeListener(this);
         deleteAccountViewModel.addPropertyChangeListener(this);
         getAuthCodeViewModel.addPropertyChangeListener(this);
 
@@ -83,7 +90,7 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(logInButton)){
-                            loginController.execute();
+                            logInController.execute();
                         }
                     }
                 }
@@ -111,6 +118,9 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
         if (evt.getNewValue() instanceof DeleteAccountState) {
             DeleteAccountState state = (DeleteAccountState) evt.getNewValue();
             JOptionPane.showMessageDialog(this, "Deleted user: " + state.getUser());
+        } else if (evt.getNewValue() instanceof LogInState) {
+            LogInState state = (LogInState) evt.getNewValue();
+            JOptionPane.showMessageDialog(this, state.getUsernameError());
         } else if (evt.getNewValue() instanceof GetAuthCodeState state) {
             Font font = new Font("Tahoma", Font.PLAIN, 24);
             StringBuffer style = new StringBuffer("font-family:" + font.getFamily() + ";");
