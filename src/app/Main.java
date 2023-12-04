@@ -60,8 +60,8 @@ public class Main {
         spotifyDataAccessObject = new SpotifyDataAccessObject(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, SCOPE, userFactory);
 
         GetAuthCodeController getAuthCodeController = GetAuthCodeUseCaseFactory.createGetAuthCodeUseCase(getAuthCodeViewModel, spotifyDataAccessObject);
-
-        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel, getAuthCodeViewModel, new LoginController(), getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
+//TODO: login use case factory needed
+        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel, getAuthCodeViewModel, new LogInController(), getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
         views.add(signupLoginView);
 
         viewManagerModel.setActiveView(signupLoginView.viewName);
