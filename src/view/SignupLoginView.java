@@ -114,7 +114,7 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
             @Override
             public void keyTyped(KeyEvent e) {
                 LogInState currentState = logInViewModel.getState();
-                String text = usernameInputField.getText() + e.getKeyChar();
+                String text = usernameInputField.getText();
                 currentState.setUsername(text);
                 logInViewModel.setState(currentState);
             }

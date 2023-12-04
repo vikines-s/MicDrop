@@ -118,7 +118,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
             ArrayList<String> userGenres = new ArrayList<String>();
 
             for (int i = 0; i < 5; i++) {
-                String artistId = artists[i].getName();
+                String artistId = artists[i].getId();
                 userGenres.add(getArtistGenre(artistId));
                 userArtists.add(artists[i].toString());
             }
