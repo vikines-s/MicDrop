@@ -10,5 +10,5 @@ public class MatchesInputData {
     }
     String getUsername(){ return this.username; }
 
-    String getAlgorithm() {return this.chosenAlgorithm}
+    String getAlgorithm() { return this.chosenAlgorithm; }
 }

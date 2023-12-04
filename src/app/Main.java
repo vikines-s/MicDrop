@@ -6,11 +6,13 @@ import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.get_auth_code.GetAuthCodeController;
 import interface_adapter.get_auth_code.GetAuthCodeViewModel;
-import interface_adapter.login.LoginController;
-import interface_adapter.login.LoginViewModel;
+import interface_adapter.login.LogInController;
+import interface_adapter.login.LogInViewModel;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpViewModel;;
 import se.michaelthelin.spotify.SpotifyHttpManager;
+import use_case.login.LogInInputBoundary;
+import use_case.login.LogInInputData;
 import view.SignupLoginView;
 import view.ViewManager;
 
@@ -37,7 +39,7 @@ public class Main {
         new ViewManager(views, cardLayout, viewManagerModel);
 
         SignUpViewModel signUpViewModel = new SignUpViewModel();
-        LoginViewModel loginViewModel = new LoginViewModel();
+        LogInViewModel loginViewModel = new LogInViewModel();
         GetAuthCodeViewModel getAuthCodeViewModel = new GetAuthCodeViewModel();
         // TODO: ADD THE OTHER VIEW MODELS ONCE WE FINISH THEM / FINISH TEST
 
@@ -59,7 +61,12 @@ public class Main {
 
         GetAuthCodeController getAuthCodeController = GetAuthCodeUseCaseFactory.createGetAuthCodeUseCase(getAuthCodeViewModel, spotifyDataAccessObject);
 
-        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel, getAuthCodeViewModel, new LoginController(), getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
+        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel, getAuthCodeViewModel, new LogInController(new LogInInputBoundary() {
+            @Override
+            public void execute(LogInInputData logInInputData) {
+
+            }
+        }), getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
         views.add(signupLoginView);
 
         viewManagerModel.setActiveView(signupLoginView.viewName);
