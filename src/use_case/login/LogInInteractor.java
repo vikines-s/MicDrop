@@ -20,7 +20,7 @@ public class LogInInteractor implements LogInInputBoundary{
             userPresenter.prepareFailView("User does not exist");
         } else {
             User user = userDataAccessObject.get(logInInputData.getUsername());
-            spotifyDataAccessObject.updateUserData(user, logInInputData.getAuthorization());
+            spotifyDataAccessObject.updateUserData(user, logInInputData.getAuthCode());
             userDataAccessObject.save(user);
             LogInOutputData logInOutputData = new LogInOutputData(user.getName(), user.getTopTracks(),
                     user.getFavouriteArtists(), user.getTopGenres());

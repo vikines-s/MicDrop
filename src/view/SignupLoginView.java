@@ -9,6 +9,7 @@ import interface_adapter.get_auth_code.GetAuthCodeState;
 import interface_adapter.get_auth_code.GetAuthCodeViewModel;
 import interface_adapter.login.LogInController;
 import interface_adapter.signup.SignUpController;
+import interface_adapter.signup.SignUpState;
 import interface_adapter.signup.SignUpViewModel;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.login.LogInController;
@@ -21,6 +22,8 @@ import javax.swing.event.HyperlinkListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -81,7 +84,8 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(signUpButton)){
-                            signupController.execute("username"); // TODO: ADD USERNAME
+                            LogInState currentState = logInViewModel.getState();
+                            signupController.execute("username", currentState.getAuthCode()); // TODO: ADD USERNAME
                         }
                     }
                 }
@@ -91,7 +95,8 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(logInButton)){
-                            logInController.execute();
+                            LogInState currentState = logInViewModel.getState();
+                            logInController.execute(currentState.getUsername(), currentState.getAuthCode());
                         }
                     }
                 }
@@ -105,6 +110,45 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                     }
                 }
         );
+        usernameInputField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                LogInState currentState = logInViewModel.getState();
+                String text = usernameInputField.getText() + e.getKeyChar();
+                currentState.setUsername(text);
+                logInViewModel.setState(currentState);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+
+        authorizationCodeInputField.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                LogInState currentState = logInViewModel.getState();
+                String text = authorizationCodeInputField.getText() + e.getKeyChar();
+                currentState.setAuthCode(text);
+                logInViewModel.setState(currentState);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);

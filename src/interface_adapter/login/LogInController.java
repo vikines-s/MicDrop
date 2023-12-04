@@ -8,8 +8,9 @@ public class LogInController {
     public LogInController(LogInInputBoundary logInUseCaseInteractor){
         this.logInUseCaseInteractor = logInUseCaseInteractor;
     }
-    public void execute(String username, String authorization){
-        LogInInputData logInInputData = new LogInInputData(username, authorization);
+    public void execute(String username, String authCode) {
+        LogInInputData logInInputData = new LogInInputData(username, authCode);
+
         logInUseCaseInteractor.execute(logInInputData);
     }
 }

@@ -53,10 +53,9 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
 
     }
 //TODO: add authorization code to parameter for signUpUser
-    public User signUpUser() {
+    public User signUpUser(String authCode) {
 
-        URI authorisationCodeUri = getAuthorizationCodeURI();
-        getAuthorizationTokens(authorisationCodeUri);
+        getAuthorizationTokens(authCode);
 
         GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = spotifyApi.getCurrentUsersProfile().build();
 
@@ -82,9 +81,8 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
         spotifyApi.setRefreshToken(null);
     }
 //TODO: add authorization code string attribute for the updateUserData method
-    public void updateUserData(User user) {
-        URI authorisationCodeUri = getAuthorizationCodeURI();
-        getAuthorizationTokens(authorisationCodeUri);
+    public void updateUserData(User user, String authCode) {
+        getAuthorizationTokens(authCode);
 
         getTopTracks(user);
         getTopArtistsAndGenres(user);
@@ -169,9 +167,9 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
 
  **/
 
-    private void getAuthorizationTokens(URI uri) {
+    private void getAuthorizationTokens(String authCode) {
 
-        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(uri.toString())
+        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(authCode)
                                                             .build();
 
         try {
