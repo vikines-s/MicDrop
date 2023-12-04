@@ -12,6 +12,8 @@ import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logout.LogOutController;
 import interface_adapter.matches.MatchesController;
+import use_case.matches.ArtistsAlgorithm;
+import use_case.matches.GenresAlgorithm;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "logged in";
@@ -65,7 +67,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(topTracksButton)) {
-                            TracksAlgorithm algorithm = new TracksAlgorithm;
+                            TracksAlgorithm algorithm = new TracksAlgorithm();
                             matchesController.execute(username.getText(), algorithm);
                         }
                     }
@@ -75,7 +77,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(topArtistsButton)) {
-                            ArtistsAlgorithm algorithm = new ArtistsAlgorithm;
+                            ArtistsAlgorithm algorithm = new ArtistsAlgorithm();
                             matchesController.execute(username.getText(), algorithm);
                         }
                     }
@@ -85,7 +87,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(topGenresButton)) {
-                            GenresAlgorithm algorithm = new GenresAlgorithm;
+                            GenresAlgorithm algorithm = new GenresAlgorithm();
                             matchesController.execute(username.getText(), algorithm);
                         }
                     }
