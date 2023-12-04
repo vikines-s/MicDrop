@@ -8,6 +8,7 @@ import interface_adapter.get_auth_code.GetAuthCodeController;
 import interface_adapter.get_auth_code.GetAuthCodeState;
 import interface_adapter.get_auth_code.GetAuthCodeViewModel;
 import interface_adapter.login.LogInController;
+import interface_adapter.logout.LogOutState;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpViewModel;
 import interface_adapter.signup.SignUpController;
@@ -121,6 +122,9 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
         } else if (evt.getNewValue() instanceof LogInState) {
             LogInState state = (LogInState) evt.getNewValue();
             JOptionPane.showMessageDialog(this, state.getUsernameError());
+        } else if (evt.getNewValue() instanceof LogOutState){
+            LogOutState state = (LogOutState) evt.getNewValue();
+            JOptionPane.showMessageDialog(this, "You have successfully logged out " + state.getUsername());
         } else if (evt.getNewValue() instanceof GetAuthCodeState state) {
             Font font = new Font("Tahoma", Font.PLAIN, 24);
             StringBuffer style = new StringBuffer("font-family:" + font.getFamily() + ";");
