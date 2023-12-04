@@ -75,6 +75,10 @@ public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterfac
         accounts.put(user.getName(), user);
         this.save();
     }
+    public void deleteAccount(String username) {
+        accounts.remove(username);
+        this.save();
+    }
 
     public User get(String username) {
         return accounts.get(username);

@@ -86,6 +86,7 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                     }
                 }
         );
+        //TODO: create a signuplogin view state and use values of field for login and signup controller
         logInButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
