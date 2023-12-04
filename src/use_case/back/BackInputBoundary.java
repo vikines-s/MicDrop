@@ -1,2 +1,4 @@
-package use_case.back;public class BackInputBoundary {
+package use_case.back;
+public interface BackInputBoundary {
+    void execute();
 }

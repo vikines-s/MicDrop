@@ -22,12 +22,13 @@ public class SignUpPresenter implements SignUpOutputBoundary {
 
     @Override
     public void prepareSuccessView(SignUpOutputData user) {
-        LoggedInState state = loggedInViewModel.getState();
-        state.setUsername(user.getUsername());
-        state.setTopTracks(user.getTopTracks());
-        state.setTopArtists(user.getTopArtists());
-        state.setTopGenres(user.getTopGenres());
-        loggedInViewModel.setState(state);
+        SignUpState signupState = signupViewModel.getState();
+        LoggedInState loggedInState = loggedInViewModel.getState();
+        loggedInState.setUsername(user.getUser().getName());
+        loggedInState.setTopArtists(user.getUser().getFavouriteArtists().toString());
+        loggedInState.setTopGenres(user.getUser().getTopGenres().toString());
+        loggedInState.setTopTracks(user.getUser().getTopTracks().toString());
+        this.loggedInViewModel.setState(loggedInState);
         loggedInViewModel.firePropertyChanged();
 
         viewManagerModel.setActiveView(loggedInViewModel.getViewName());

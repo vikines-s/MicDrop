@@ -63,6 +63,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
             se.michaelthelin.spotify.model_objects.specification.User spotifyUser = getCurrentUsersProfileRequest.execute();
 
             User user = userFactory.create(spotifyUser.getDisplayName());
+            user.setEmail(spotifyUser.getEmail());
             user.setBirthdate(spotifyUser.getBirthdate());
             getTopTracks(user);
             getTopArtistsAndGenres(user);
@@ -98,7 +99,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
             ArrayList<String> userTracks = new ArrayList<String>();
 
             for (int i = 0; i < 5; i++) {
-                userTracks.add(tracks[i].toString());
+                userTracks.add(tracks[i].getName());
             }
 
             user.setTopTracks(userTracks);
@@ -120,7 +121,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
             for (int i = 0; i < 5; i++) {
                 String artistId = artists[i].getId();
                 userGenres.add(getArtistGenre(artistId));
-                userArtists.add(artists[i].toString());
+                userArtists.add(artists[i].getName());
             }
 
             user.setTopTracks(userArtists);
@@ -188,7 +189,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
 
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
 //          .state("x4xkmn9pu3j6ukrs8n")
-            .scope("user-read-private,user-top-read,user-follow-read") // TODO take scope from Spotify API here
+            .scope("user-read-private,user-top-read,user-follow-read,user-read-email,user-read-birthdate") // TODO take scope from Spotify API here
 //          .show_dialog(true)
                 .build();
 

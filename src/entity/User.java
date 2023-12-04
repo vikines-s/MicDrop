@@ -18,4 +18,7 @@ public interface User {
     String getBirthdate();
     ArrayList<String> getTopTracks();
     ArrayList<String> getTopGenres();
+
+    String getEmail();
+    void setEmail(String email);
 }

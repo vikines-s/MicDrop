@@ -45,7 +45,7 @@ public class InMemoryUserDataAccessObject implements DeleteAccountDataAccessInte
         CommonUserFactory userFactory = new CommonUserFactory();
         ArrayList<String> list = new ArrayList<>();
         list.add("hi");
-        User user = userFactory.create("Mila", "May", list, list, list);
+        User user = userFactory.create("Mila", "milabhaloo@mail.utoronto.ca","May", list, list, list);
         return user;
     }
 }

@@ -10,6 +10,7 @@ public class CommonUser implements User {
     // private URI FutureURI = null;
     // private int expiryTime = 0;
     private String birthdate = null;
+    private String email = null;
     private ArrayList<String> topTracks = new ArrayList<String>();
     private ArrayList<String> topArtists = new ArrayList<String>();
     private ArrayList<String> topGenres = new ArrayList<String>();
@@ -60,6 +61,16 @@ public class CommonUser implements User {
     @Override
     public ArrayList<String> getTopGenres() {
         return this.topGenres;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.email;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

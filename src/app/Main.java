@@ -13,8 +13,6 @@ import interface_adapter.logout.LogOutViewModel;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpViewModel;;
 import se.michaelthelin.spotify.SpotifyHttpManager;
-import use_case.login.LogInInputBoundary;
-import use_case.login.LogInInputData;
 import view.LoggedInView;
 import view.SignupLoginView;
 import view.ViewManager;
@@ -61,14 +59,14 @@ public class Main {
         String CLIENT_ID = "4bd4b40ba79042e882aad0141ba5dfe6";
         String CLIENT_SECRET = "86efef17dc4b419c8406531ac943b84a";
         URI REDIRECT_URI = SpotifyHttpManager.makeUri("http://localhost:8888/callback"); // new URI("http://localhost:3000")
-        String SCOPE = "user-read-private,user-top-read,user-follow-read";
+        String SCOPE = "user-read-private,user-top-read,user-follow-read,user-read-email,user-read-birthdate";
         spotifyDataAccessObject = new SpotifyDataAccessObject(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, SCOPE, userFactory);
 
         GetAuthCodeController getAuthCodeController = GetAuthCodeUseCaseFactory.createGetAuthCodeUseCase(getAuthCodeViewModel, spotifyDataAccessObject);
         LogInController logInController = LogInUseCaseFactory.create(loginViewModel, fileUserDataAccessObject,
                 spotifyDataAccessObject, loggedInViewModel, viewManagerModel);
-
-        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel, getAuthCodeViewModel, logInController, getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
+        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loggedInViewModel, loginViewModel, signUpViewModel,
+                getAuthCodeViewModel, logInController, getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
         views.add(signupLoginView);
 
         viewManagerModel.setActiveView(signupLoginView.viewName);
