@@ -6,12 +6,14 @@ import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.get_auth_code.GetAuthCodeController;
 import interface_adapter.get_auth_code.GetAuthCodeViewModel;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LogInController;
 import interface_adapter.login.LogInViewModel;
 import interface_adapter.logout.LogOutViewModel;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpViewModel;;
 import se.michaelthelin.spotify.SpotifyHttpManager;
+import view.LoggedInView;
 import view.SignupLoginView;
 import view.ViewManager;
 
@@ -41,6 +43,7 @@ public class Main {
         LogInViewModel loginViewModel = new LogInViewModel();
         GetAuthCodeViewModel getAuthCodeViewModel = new GetAuthCodeViewModel();
         LogOutViewModel logOutViewModel = new LogOutViewModel();
+        LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         // TODO: ADD THE OTHER VIEW MODELS ONCE WE FINISH THEM / FINISH TEST
 
         FileUserSpotifyAccessObject fileUserDataAccessObject;
@@ -60,8 +63,10 @@ public class Main {
         spotifyDataAccessObject = new SpotifyDataAccessObject(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, SCOPE, userFactory);
 
         GetAuthCodeController getAuthCodeController = GetAuthCodeUseCaseFactory.createGetAuthCodeUseCase(getAuthCodeViewModel, spotifyDataAccessObject);
-//TODO: login use case factory needed
-        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel, getAuthCodeViewModel, new LogInController(), getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
+        LogInController logInController = LogInUseCaseFactory.create(loginViewModel, fileUserDataAccessObject,
+                spotifyDataAccessObject, loggedInViewModel, viewManagerModel);
+        SignupLoginView signupLoginView = SignUpUseCaseFactory.create(viewManagerModel, loginViewModel, signUpViewModel,
+                getAuthCodeViewModel, logInController, getAuthCodeController, fileUserDataAccessObject, spotifyDataAccessObject);
         views.add(signupLoginView);
 
         viewManagerModel.setActiveView(signupLoginView.viewName);
