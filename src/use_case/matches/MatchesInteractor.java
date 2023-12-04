@@ -22,6 +22,7 @@ public class MatchesInteractor implements MatchesInputBoundary {
         LinkedHashMap sortedMatches = new LinkedHashMap();
         HashMap matches = new HashMap<>();
         String currentUser = matchesInputData.getUsername();
+        MatchingAlgorithm algo = matchesInputData.getAlgorithm();
         if (accounts.size() < 2) {
             matchPresenter.prepareFailView("There is nobody to match with!");
         }
