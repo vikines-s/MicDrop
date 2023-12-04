@@ -122,7 +122,10 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
         } else if (evt.getNewValue() instanceof LogInState) {
             LogInState state = (LogInState) evt.getNewValue();
             JOptionPane.showMessageDialog(this, state.getUsernameError());
-        } else if (evt.getNewValue() instanceof GetAuthCodeState state) {
+        } else if (evt.getNewValue() instanceof LogOutState) {
+            LogOutState state = (LogOutState) evt.getNewValue();
+            JOptionPane.showMessageDialog(this, "You have successfully logged out " + state.getUsername() + "!");
+        }else if (evt.getNewValue() instanceof GetAuthCodeState state) {
             Font font = new Font("Tahoma", Font.PLAIN, 24);
             StringBuffer style = new StringBuffer("font-family:" + font.getFamily() + ";");
             style.append("font-weight:" + (font.isBold() ? "bold" : "normal") + ";");
