@@ -96,7 +96,7 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(logOutButton)) {
-                            logOutController.execute();
+                            logOutController.execute(username.getText());
                         }
                     }
                 }

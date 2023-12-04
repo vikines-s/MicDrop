@@ -1,12 +1,13 @@
 package use_case.login;
 
 public class LogInInputData {
-    final private String username;
-    final private String authorization;
-    public LogInInputData(String username, String authorization) {
+    private final String username;
+    private final String authCode;
+
+    public LogInInputData(String username, String authCode) {
         this.username = username;
-        this.authorization = authorization;
+        this.authCode = authCode;
     }
     public String getUsername() { return this.username; }
-    public String getAuthorization() { return this.authorization; }
+    public String getAuthCode() { return this.authCode; }
 }
