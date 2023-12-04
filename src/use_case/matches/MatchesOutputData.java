@@ -9,7 +9,9 @@ public class MatchesOutputData {
     public String match4;
     public String match5;
     public String matchType;
+
     public MatchesOutputData(LinkedHashMap matches, String matchType) {
+        this.matches = matches;
         this.matchType = matchType;
         ArrayList<Object> allMatches = new ArrayList<>(10);
         for (Map.Entry<Object, Object> entry : matches.entrySet()) {

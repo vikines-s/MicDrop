@@ -80,7 +80,6 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
         spotifyApi.setAccessToken(null);
         spotifyApi.setRefreshToken(null);
     }
-//TODO: add authorization code string attribute for the updateUserData method
     public void updateUserData(User user, String authCode) {
         getAuthorizationTokens(authCode);
 
@@ -119,7 +118,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
             ArrayList<String> userGenres = new ArrayList<String>();
 
             for (int i = 0; i < 5; i++) {
-                String artistId = artists[i].getName();
+                String artistId = artists[i].getId();
                 userGenres.add(getArtistGenre(artistId));
                 userArtists.add(artists[i].toString());
             }
