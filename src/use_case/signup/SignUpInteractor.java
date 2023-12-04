@@ -22,7 +22,7 @@ public class SignUpInteractor implements SignUpInputBoundary {
             User user = spotifyDataAccessObject.signUpUser(signUpInputData.getAuthorizationCode());
             userDataAccessObject.save(user);
 
-            SignUpOutputData signUpOutputData = new SignUpOutputData(user.getName(), false);
+            SignUpOutputData signUpOutputData = new SignUpOutputData(user, false);
             userPresenter.prepareSuccessView(signUpOutputData);
 
         }

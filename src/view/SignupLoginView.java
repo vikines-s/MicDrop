@@ -8,6 +8,7 @@ import interface_adapter.get_auth_code.GetAuthCodeController;
 import interface_adapter.get_auth_code.GetAuthCodeState;
 import interface_adapter.get_auth_code.GetAuthCodeViewModel;
 import interface_adapter.login.LogInController;
+import interface_adapter.logout.LogOutState;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpState;
 import interface_adapter.signup.SignUpViewModel;
