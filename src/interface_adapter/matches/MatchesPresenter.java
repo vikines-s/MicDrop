@@ -21,7 +21,11 @@ public class MatchesPresenter {
     public void PrepareSuccessView(MatchesOutputData data) {
         MatchesState state = matchesViewModel.getState();
         state.setMatchType(data.getMatchType());
+//TODO: set matches to stat once format of output data is decided
+        this.matchesViewModel.setState(state);
+        this.matchesViewModel.firePropertyChanged();
 
-
+        this.viewManagerModel.setActiveView(matchesViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 }
