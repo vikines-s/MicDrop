@@ -14,7 +14,7 @@ public class SignUpInteractorTest {
         SignUpOutputBoundary successPresenter = new SignUpOutputBoundary() {
             @Override
             public void prepareSuccessView(SignUpOutputData user) {
-                assertEquals(user.getUsername(), "Mila");
+                assertEquals(user.getUser().getName(), "Mila");
                 assertTrue(userRepository.existsByName("Mila"));
                 assertFalse(user.isSignUpFailed());
             }

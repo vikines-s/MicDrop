@@ -2,19 +2,20 @@ package data_access;
 
 import entity.User;
 import entity.UserFactory;
+import use_case.delete_account.DeleteAccountDataAccessInterface;
 import use_case.login.LogInUserDataAccessInterface;
+import use_case.matches.MatchesDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 import use_case.signup.SignUpUserDataAccessInterface;
 
 import java.io.*;
 import java.util.*;
 
-//TODO make sure to implement all required interfaces for this DAO
-public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterface, LogInUserDataAccessInterface {
+public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterface, LogInUserDataAccessInterface, DeleteAccountDataAccessInterface, MatchesDataAccessInterface {
 
     private final File csvFile;
-    private final Map<String, Integer> headers = new LinkedHashMap<>();
-    private final Map<String, User> accounts = new HashMap<>();
+    private final LinkedHashMap<String, Integer> headers = new LinkedHashMap<>();
+    private final HashMap<String, User> accounts = new HashMap<>();
     private UserFactory userFactory;
 
     public FileUserSpotifyAccessObject(String csvPath, UserFactory userFactory) throws IOException {
@@ -116,5 +117,9 @@ public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterfac
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public HashMap<String, User> getAccounts() {
+        return this.accounts;
     }
 }

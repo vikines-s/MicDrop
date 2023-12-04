@@ -1,7 +1,5 @@
 package use_case.matches;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-
 public class MatchesInputData {
     final private String username;
 

@@ -13,6 +13,7 @@ import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LogInController;
 import interface_adapter.login.LogInViewModel;
 
+import interface_adapter.logout.LogOutViewModel;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpPresenter;
 import interface_adapter.signup.SignUpViewModel;
@@ -27,11 +28,12 @@ import java.io.IOException;
 public class SignUpUseCaseFactory {
 
     private SignUpUseCaseFactory() {}
-    public static SignupLoginView create(ViewManagerModel viewManagerModel, LoggedInViewModel loggedInViewModel, LogInViewModel loginViewModel, SignUpViewModel signupViewModel, GetAuthCodeViewModel getAuthCodeViewModel, LogInController loginController, GetAuthCodeController getAuthCodeController, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) {
+    public static SignupLoginView create(ViewManagerModel viewManagerModel, LoggedInViewModel loggedInViewModel, LogInViewModel loginViewModel, SignUpViewModel signupViewModel, GetAuthCodeViewModel getAuthCodeViewModel, LogInController loginController, GetAuthCodeController getAuthCodeController, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject,
+                                         DeleteAccountViewModel deleteAccountViewModel, LogOutViewModel logOutViewModel) {
 
         try {
             SignUpController signupController = createUserSignupUseCase(viewManagerModel, loggedInViewModel, signupViewModel, userDataAccessObject, spotifyDataAccessObject);
-            return new SignupLoginView(signupViewModel, loginViewModel, signupController, loginController, getAuthCodeViewModel, getAuthCodeController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY
+            return new SignupLoginView(signupViewModel, loginViewModel, signupController, loginController, getAuthCodeViewModel, getAuthCodeController, deleteAccountViewModel, logOutViewModel); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

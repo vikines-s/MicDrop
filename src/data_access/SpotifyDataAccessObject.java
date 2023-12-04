@@ -20,6 +20,8 @@ import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfi
 
 import use_case.login.LogInSpotifyAccessInterface;
 import use_case.get_auth_code.GetAuthCodeDataAccessInterface;
+import use_case.logout.LogOutDataAccessInterface;
+import use_case.matches.MatchesDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 
 import java.io.IOException;
@@ -29,7 +31,7 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
-public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, GetAuthCodeDataAccessInterface, LogInSpotifyAccessInterface {
+public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, GetAuthCodeDataAccessInterface, LogInSpotifyAccessInterface, LogOutDataAccessInterface {
     private String clientId;
     private String clientSecret;
     private URI redirectURI;
@@ -124,7 +126,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
                 userArtists.add(artists[i].getName());
             }
 
-            user.setTopTracks(userArtists);
+            user.setTopArtists(userArtists);
             user.setTopGenres(userGenres);
 
         } catch (IOException | SpotifyWebApiException | ParseException e) {
@@ -141,10 +143,15 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
         try {
             final Artist artist = getArtistRequest.execute();
 
-            return artist.getGenres()[0];
+            if (artist.getGenres().length != 0) {
+                return artist.getGenres()[0];
+            }
+            return "";
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
 
@@ -189,7 +196,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
 
         AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
 //          .state("x4xkmn9pu3j6ukrs8n")
-            .scope("user-read-private,user-top-read,user-follow-read,user-read-email,user-read-birthdate") // TODO take scope from Spotify API here
+            .scope("user-read-private,user-read-email,user-top-read,user-follow-read") // TODO take scope from Spotify API here
 //          .show_dialog(true)
                 .build();
 
