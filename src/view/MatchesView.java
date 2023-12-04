@@ -17,12 +17,7 @@ public class MatchesView extends JPanel implements ActionListener, PropertyChang
     private final MatchesViewModel matchesViewModel;
     private final BackController backController;
     JLabel matchType;
-    JLabel match1;
-    JLabel match2;
-    JLabel match3;
-    JLabel match4;
-    JLabel match5;
-
+    JLabel matchesString;
 
     public MatchesView(MatchesViewModel matchesViewModel, BackController backController) {
         this.matchesViewModel  = matchesViewModel;
@@ -33,17 +28,7 @@ public class MatchesView extends JPanel implements ActionListener, PropertyChang
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         matchType = new JLabel();
 
-        JPanel matches = new JPanel();
-        match1 = new JLabel();
-        matches.add(match1);
-        match2 = new JLabel();
-        matches.add(match2);
-        match3 = new JLabel();
-        matches.add(match3);
-        match4 = new JLabel();
-        matches.add(match4);
-        match5 = new JLabel();
-        matches.add(match5);
+        matchesString = new JLabel();
 
         JButton back = new JButton(matchesViewModel.BACK_BUTTON_LABEL);
 
@@ -61,9 +46,8 @@ public class MatchesView extends JPanel implements ActionListener, PropertyChang
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(matchType);
-        this.add(matches);
+        this.add(matchesString);
         this.add(back);
-
     }
 
     @Override
@@ -77,6 +61,7 @@ public class MatchesView extends JPanel implements ActionListener, PropertyChang
             MatchesState state = matchesViewModel.getState();
             if (state.getError() == null) {
                 matchType.setText(state.getMatchType());
+                matchesString.setText(state.getMatches());
             }
         }
     }

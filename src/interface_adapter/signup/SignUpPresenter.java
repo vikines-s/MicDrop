@@ -1,6 +1,8 @@
 package interface_adapter.signup;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.logged_in.LoggedInState;
+import interface_adapter.logged_in.LoggedInViewModel;
 import use_case.signup.SignUpOutputBoundary;
 import use_case.signup.SignUpOutputData;
 
@@ -9,22 +11,26 @@ import java.time.format.DateTimeFormatter;
 
 public class SignUpPresenter implements SignUpOutputBoundary {
     private final SignUpViewModel signupViewModel;
-    //TODO: private final LoggedInViewModel loggedInViewModel;
+    private final LoggedInViewModel loggedInViewModel;
     private ViewManagerModel viewManagerModel;
 
-    public SignUpPresenter(SignUpViewModel signupViewModel, ViewManagerModel viewManagerModel) {
+    public SignUpPresenter(SignUpViewModel signupViewModel, ViewManagerModel viewManagerModel, LoggedInViewModel loggedInViewModel) {
         this.signupViewModel = signupViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.loggedInViewModel = loggedInViewModel;
     }
 
     @Override
     public void prepareSuccessView(SignUpOutputData user) {
-        SignUpState signupState = signupViewModel.getState();
-        //LoginState loginState = loginViewModel.getState();
-        //loginState.setUsername(response.getUsername());
-        //this.loginViewModel.setState(loginState);
-        //loginViewModel.firePropertyChanged();
-        //TODO: viewManagerModel.setActiveView(loggedinViewModel.getViewName());
+        LoggedInState state = loggedInViewModel.getState();
+        state.setUsername(user.getUsername());
+        state.setTopTracks(user.getTopTracks());
+        state.setTopArtists(user.getTopArtists());
+        state.setTopGenres(user.getTopGenres());
+        loggedInViewModel.setState(state);
+        loggedInViewModel.firePropertyChanged();
+
+        viewManagerModel.setActiveView(loggedInViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
