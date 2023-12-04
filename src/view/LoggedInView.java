@@ -13,7 +13,6 @@ import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logout.LogOutController;
 import interface_adapter.matches.MatchesController;
 import interface_adapter.matches.MatchesState;
-import interface_adapter.matches.MatchesViewModel;
 import use_case.matches.ArtistsAlgorithm;
 import use_case.matches.GenresAlgorithm;
 
