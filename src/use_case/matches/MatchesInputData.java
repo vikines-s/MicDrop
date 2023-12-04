@@ -8,7 +8,11 @@ public class MatchesInputData {
         this.username = username;
         this.chosenAlgorithm = chosenAlgorithm;
     }
-    String getUsername(){ return this.username; }
+    String getUsername(){
+        return this.username;
+    }
 
-    String getAlgorithm() {return this.chosenAlgorithm}
+    String getAlgorithm() {
+        return this.chosenAlgorithm;
+    }
 }

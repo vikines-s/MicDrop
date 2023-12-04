@@ -6,8 +6,9 @@ import entity.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.get_auth_code.GetAuthCodeController;
 import interface_adapter.get_auth_code.GetAuthCodeViewModel;
-import interface_adapter.login.LogInViewModel;
 import interface_adapter.login.LogInController;
+import interface_adapter.login.LogInViewModel;
+import interface_adapter.logout.LogOutViewModel;
 import interface_adapter.signup.SignUpController;
 import interface_adapter.signup.SignUpViewModel;;
 import se.michaelthelin.spotify.SpotifyHttpManager;
@@ -39,6 +40,7 @@ public class Main {
         SignUpViewModel signUpViewModel = new SignUpViewModel();
         LogInViewModel loginViewModel = new LogInViewModel();
         GetAuthCodeViewModel getAuthCodeViewModel = new GetAuthCodeViewModel();
+        LogOutViewModel logOutViewModel = new LogOutViewModel();
         // TODO: ADD THE OTHER VIEW MODELS ONCE WE FINISH THEM / FINISH TEST
 
         FileUserSpotifyAccessObject fileUserDataAccessObject;

@@ -16,8 +16,8 @@ public class MatchesInteractor implements MatchesInputBoundary {
         this.algo = algo;
 
     public void execute(MatchesInputData matchesInputData) {
+
         int numMatches = 0;
-        }
         if (!userDataAccessObject.usersExist()) {
             matchPresenter.prepareFailView("There is nobody to match with!");
         }
@@ -25,4 +25,6 @@ public class MatchesInteractor implements MatchesInputBoundary {
             //TODO implement this
         }
         }
+    }
+
 }
