@@ -52,7 +52,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
 
 
     }
-
+//TODO: add authorization code to parameter for signUpUser
     public User signUpUser() {
 
         URI authorisationCodeUri = getAuthorizationCodeURI();
@@ -81,7 +81,7 @@ public class SpotifyDataAccessObject implements SignUpSpotifyAccessInterface, Ge
         spotifyApi.setAccessToken(null);
         spotifyApi.setRefreshToken(null);
     }
-
+//TODO: add authorization code string attribute for the updateUserData method
     public void updateUserData(User user) {
         URI authorisationCodeUri = getAuthorizationCodeURI();
         getAuthorizationTokens(authorisationCodeUri);

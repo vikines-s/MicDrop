@@ -15,13 +15,12 @@ public class LogInInteractor implements LogInInputBoundary{
         this.userPresenter = userPresenter;
     }
 
-    //TODO: do i also have to update the file user data access object
     public void execute(LogInInputData logInInputData) {
         if (!userDataAccessObject.existsByName(logInInputData.getUsername())) {
             userPresenter.prepareFailView("User does not exist");
         } else {
             User user = userDataAccessObject.get(logInInputData.getUsername());
-            spotifyDataAccessObject.updateUserData(user);
+            spotifyDataAccessObject.updateUserData(user, logInInputData.getAuthorization());
             userDataAccessObject.save(user);
             LogInOutputData logInOutputData = new LogInOutputData(user.getName(), user.getTopTracks(),
                     user.getFavouriteArtists(), user.getTopGenres());

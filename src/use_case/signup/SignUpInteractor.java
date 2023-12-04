@@ -19,7 +19,7 @@ public class SignUpInteractor implements SignUpInputBoundary {
         if (userDataAccessObject.existsByName(signUpInputData.getUsername())) {
             userPresenter.prepareFailView("User already exists.");
         } else {
-            User user = spotifyDataAccessObject.signUpUser();
+            User user = spotifyDataAccessObject.signUpUser(signUpInputData.getAuthorizationCode());
             userDataAccessObject.save(user);
 
             SignUpOutputData signUpOutputData = new SignUpOutputData(user.getName(), false);
