@@ -3,11 +3,13 @@ package data_access;
 import entity.CommonUserFactory;
 import entity.User;
 import use_case.delete_account.DeleteAccountDataAccessInterface;
+import use_case.get_auth_code.GetAuthCodeDataAccessInterface;
 import use_case.login.LogInSpotifyAccessInterface;
 import use_case.login.LogInUserDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 import use_case.signup.SignUpUserDataAccessInterface;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +46,6 @@ public class InMemoryUserDataAccessObject implements DeleteAccountDataAccessInte
         ArrayList<String> list = new ArrayList<>();
         list.add("hi");
         User user = userFactory.create("Mila", "May", list, list, list);
-
+        return user;
     }
 }
