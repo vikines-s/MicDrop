@@ -10,4 +10,6 @@ public interface MatchesDataAccessInterface {
     User get(String username);
 
     boolean usersExist();
+
+    String getEmail();
 }
