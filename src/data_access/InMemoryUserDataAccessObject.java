@@ -32,7 +32,7 @@ public class InMemoryUserDataAccessObject implements DeleteAccountDataAccessInte
         accounts.remove(username);
     }
     @Override
-    public void updateUserData(User user) {
+    public void updateUserData(User user, String authcode) {
         ArrayList<String> list = new ArrayList<>();
         list.add("hi");
         user.setBirthdate("May");
@@ -41,7 +41,7 @@ public class InMemoryUserDataAccessObject implements DeleteAccountDataAccessInte
         user.setTopArtists(list);
     }
     @Override
-    public User signUpUser() {
+    public User signUpUser(String authcode) {
         CommonUserFactory userFactory = new CommonUserFactory();
         ArrayList<String> list = new ArrayList<>();
         list.add("hi");

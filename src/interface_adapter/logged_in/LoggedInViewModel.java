@@ -7,8 +7,10 @@ import java.beans.PropertyChangeSupport;
 
 public class LoggedInViewModel extends ViewModel{
     public static final String TITLE_LABEL = "My MicDrop Account";
-    public static final String MATCHES_BUTTON_LABEL = "Find Matches";
     public static final String LOG_OUT_BUTTON_LABEL = "Log Out";
+    public static final String TOP_TRACKS_BUTTON_LABEL = "Top Tracks";
+    public static final String TOP_ARTISTS_BUTTON_LABEL = "Top Artists";
+    public static final String TOP_GENRES_BUTTON_LABEL = "Top Genres";
     public static final String DELETE_ACCOUNT_BUTTON_LABEL = "Delete Account";
     private LoggedInState state = new LoggedInState();
     public LoggedInViewModel() { super("logged in"); }

@@ -30,7 +30,7 @@ public class SignUpUseCaseFactory {
 
         try {
             SignUpController signupController = createUserSignupUseCase(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, spotifyDataAccessObject);
-            return new SignupLoginView(signupViewModel, loginViewModel, signupController, loginController, getAuthCodeViewModel, getAuthCodeController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY and the GetAuthCodeController
+            return new SignupLoginView(signupViewModel, loginViewModel, signupController, loginController, getAuthCodeViewModel, getAuthCodeController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
         }

@@ -15,15 +15,14 @@ public class MatchesInteractor implements MatchesInputBoundary {
     final MatchesOutputBoundary matchPresenter;
     final MatchingAlgorithm algo;
     public MatchesInteractor(MatchesDataAccessInterface userDataAccessObject,
-                             MatchesOutputBoundary matchPresenter, MatchingAlgorithm algo){
+                             MatchesOutputBoundary matchPresenter, MatchingAlgorithm algo) {
         this.userDataAccessObject = userDataAccessObject;
         this.accounts = userDataAccessObject.getAccounts();
         this.matchPresenter = matchPresenter;
         this.algo = algo;
     }
 
-    @Override
-    public void execute(MatchesInputData matchInputData) {
+    public void execute(MatchesInputData matchesInputData) {
         int numMatches = 0;
         HashMap matches = new HashMap<>();
         String currentUser = matchInputData.getUsername();
@@ -45,7 +44,6 @@ public class MatchesInteractor implements MatchesInputBoundary {
                     MatchesOutputData matchesOutputData = new MatchesOutputData(sortedMatches,currentUser, algo.getMatchType());
                     //TODO remove the key value pair after you find the max, find the max again etc.
                     //TODO break if matches empty or wtv
-
                 }
             }
         }

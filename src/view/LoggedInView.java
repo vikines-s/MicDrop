@@ -12,6 +12,9 @@ import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logout.LogOutController;
 import interface_adapter.matches.MatchesController;
+import interface_adapter.matches.MatchesState;
+import use_case.matches.ArtistsAlgorithm;
+import use_case.matches.GenresAlgorithm;
 
 public class LoggedInView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "logged in";
@@ -19,7 +22,9 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
     private final DeleteAccountController deleteAccountController;
     private final MatchesController matchesController;
     private final LogOutController logOutController;
-    private final JButton matchesButton;
+    private final JButton topTracksButton;
+    private final JButton topArtistsButton;
+    private final JButton topGenresButton;
     private final JButton logOutButton;
     private final JButton deleteAccountButton;
     JLabel username;
@@ -44,28 +49,57 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         topArtists = new JLabel();
         topGenres = new JLabel();
 
+        JLabel matchesInfo = new JLabel("Find matches based on:");
+        JPanel matchButtons = new JPanel();
+        topTracksButton = new JButton(loggedInViewModel.TOP_TRACKS_BUTTON_LABEL);
+        matchButtons.add(topTracksButton);
+        topArtistsButton = new JButton(loggedInViewModel.TOP_ARTISTS_BUTTON_LABEL);
+        matchButtons.add(topArtistsButton);
+        topGenresButton = new JButton(loggedInViewModel.TOP_GENRES_BUTTON_LABEL);
+        matchButtons.add(topGenresButton);
+
         JPanel buttons = new JPanel();
-        matchesButton = new JButton(loggedInViewModel.MATCHES_BUTTON_LABEL);
-        buttons.add(matchesButton);
         logOutButton = new JButton(loggedInViewModel.LOG_OUT_BUTTON_LABEL);
         buttons.add(logOutButton);
         deleteAccountButton = new JButton(loggedInViewModel.DELETE_ACCOUNT_BUTTON_LABEL);
         buttons.add(deleteAccountButton);
 
-        matchesButton.addActionListener(
+        topTracksButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(matchesButton)) {
-                            matchesController.execute(username.getText());
+                        if (e.getSource().equals(topTracksButton)) {
+                            TracksAlgorithm algorithm = new TracksAlgorithm();
+                            matchesController.execute(username.getText(), algorithm);
                         }
                     }
                 }
         );
+        topArtistsButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(topArtistsButton)) {
+                            ArtistsAlgorithm algorithm = new ArtistsAlgorithm();
+                            matchesController.execute(username.getText(), algorithm);
+                        }
+                    }
+                }
+        );
+        topGenresButton.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(topGenresButton)) {
+                            GenresAlgorithm algorithm = new GenresAlgorithm();
+                            matchesController.execute(username.getText(), algorithm);
+                        }
+                    }
+                }
+        );
+
         logOutButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(logOutButton)) {
-                            logOutController.execute();
+                            logOutController.execute(username.getText());
                         }
                     }
                 }
@@ -88,6 +122,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
         this.add(topTracks);
         this.add(topArtists);
         this.add(topGenres);
+        this.add(matchesInfo);
+        this.add(matchButtons);
         this.add(buttons);
     }
     public void actionPerformed(ActionEvent e) {System.out.println("Click " + e.getActionCommand());}
@@ -98,6 +134,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             topTracks.setText("Top Tracks: " + state.getTopTracks());
             topArtists.setText("top Artists: " + state.getTopArtists());
             topGenres.setText("Top Genres: " + state.getTopGenres());
+        } else if (evt.getNewValue() instanceof MatchesState) {
+            MatchesState state = (MatchesState) evt.getNewValue();
+            if (state.getError() != null) {
+                JOptionPane.showMessageDialog(this, state.getError());
+            }
         }
     }
 }
