@@ -23,6 +23,5 @@ public class MatchesPresenter {
         state.setMatchType(data.getMatchType());
         state.setMatches(data.getMatch1(), data.getMatch2(), data.getMatch3(), data.getMatch4(), data.getMatch5());
 
-
     }
 }
