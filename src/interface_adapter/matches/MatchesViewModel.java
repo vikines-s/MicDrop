@@ -9,7 +9,7 @@ public class MatchesViewModel extends ViewModel {
     public static final String TITLE_LABEL = "Your matches based on:";
     public static final String BACK_BUTTON_LABEL = "Back to My Profile";
     private MatchesState state = new MatchesState();
-    public MatchesViewModel(String viewName) {
+    public MatchesViewModel() {
         super("matches");
     }
     public void setState(MatchesState state) {

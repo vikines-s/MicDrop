@@ -1,6 +1,7 @@
 package app;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.login.LogInViewModel;
 import interface_adapter.logout.LogOutController;
 import interface_adapter.logout.LogOutPresenter;
 import interface_adapter.logout.LogOutViewModel;
@@ -14,8 +15,8 @@ public class LogOutUseCaseFactory {
     private LogOutUseCaseFactory() {}
     public static LogOutController create(LogOutViewModel logOutViewModel,
                                           LogOutDataAccessInterface spotifyDataAccessObject,
-                                          SignUpViewModel signUpViewModel, ViewManagerModel viewManagerModel) {
-        LogOutOutputBoundary logOutPresenter = new LogOutPresenter(logOutViewModel, signUpViewModel, viewManagerModel);
+                                          LogInViewModel logInViewModel, ViewManagerModel viewManagerModel) {
+        LogOutOutputBoundary logOutPresenter = new LogOutPresenter(logOutViewModel, logInViewModel, viewManagerModel);
         LogOutInputBoundary logOutInteractor = new LogOutInteractor(logOutPresenter, spotifyDataAccessObject);
         return new LogOutController(logOutInteractor);
     }

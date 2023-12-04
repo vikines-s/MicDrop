@@ -9,13 +9,11 @@ public class MatchesInteractor implements MatchesInputBoundary {
 
     final HashMap accounts;
     final MatchesOutputBoundary matchPresenter;
-    final MatchingAlgorithm algo;
     public MatchesInteractor(MatchesDataAccessInterface userDataAccessObject,
-                             MatchesOutputBoundary matchPresenter, MatchingAlgorithm algo) {
+                             MatchesOutputBoundary matchPresenter) {
         this.userDataAccessObject = userDataAccessObject;
         this.accounts = userDataAccessObject.getAccounts();
         this.matchPresenter = matchPresenter;
-        this.algo = algo;
     }
 
     public void execute(MatchesInputData matchesInputData) {
@@ -46,7 +44,7 @@ public class MatchesInteractor implements MatchesInputBoundary {
                     //TODO remove the key value pair after you find the max, find the max again etc.
                     //TODO break if matches empty or wtv
                 }
-                MatchesOutputData matchesOutputData = new MatchesOutputData(sortedMatches, currentUser, algo.getMatchType());
+                MatchesOutputData matchesOutputData = new MatchesOutputData(sortedMatches, algo.getMatchType());
             }
         }
     }
