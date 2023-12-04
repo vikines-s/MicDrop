@@ -12,6 +12,8 @@ import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.logged_in.LoggedInState;
 import interface_adapter.logout.LogOutController;
 import interface_adapter.matches.MatchesController;
+import interface_adapter.matches.MatchesState;
+import interface_adapter.matches.MatchesViewModel;
 import use_case.matches.ArtistsAlgorithm;
 import use_case.matches.GenresAlgorithm;
 
@@ -133,6 +135,11 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
             topTracks.setText("Top Tracks: " + state.getTopTracks());
             topArtists.setText("top Artists: " + state.getTopArtists());
             topGenres.setText("Top Genres: " + state.getTopGenres());
+        } else if (evt.getNewValue() instanceof MatchesState) {
+            MatchesState state = (MatchesState) evt.getNewValue();
+            if (state.getError() != null) {
+                JOptionPane.showMessageDialog(this, state.getError());
+            }
         }
     }
 }
