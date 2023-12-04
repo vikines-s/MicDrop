@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GenresAlgorithm implements MatchingAlgorithm{
     @Override
-    public int getMatchScore(User user1, User user2) {
+    public Integer getMatchScore(User user1, User user2) {
         int count = 0;
         ArrayList<String> list1 = user1.getTopGenres();
         ArrayList<String> list2 = user2.getTopGenres();
@@ -16,5 +16,10 @@ public class GenresAlgorithm implements MatchingAlgorithm{
             }
         }
         return count;
+    }
+
+    @Override
+    public String getMatchType() {
+        return "genres";
     }
 }
