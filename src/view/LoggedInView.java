@@ -68,8 +68,8 @@ public class LoggedInView extends JPanel implements ActionListener, PropertyChan
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(topTracksButton)) {
-                            TracksAlgorithm algorithm = new TracksAlgorithm();
-                            matchesController.execute(username.getText(), algorithm);
+                            // TracksAlgorithm algorithm = new TracksAlgorithm;
+                            // matchesController.execute(username.getText(), algorithm);
                         }
                     }
                 }

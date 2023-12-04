@@ -3,13 +3,14 @@ package entity;
 import java.net.URI;
 import java.util.ArrayList;
 
-public class CommonUser implements User{
+public class CommonUser implements User {
 
     private final String username;
     // private URI uri = null;
     // private URI FutureURI = null;
     // private int expiryTime = 0;
     private String birthdate = null;
+    private String email = null;
     private ArrayList<String> topTracks = new ArrayList<String>();
     private ArrayList<String> topArtists = new ArrayList<String>();
     private ArrayList<String> topGenres = new ArrayList<String>();
@@ -21,34 +22,6 @@ public class CommonUser implements User{
     public String getName() {
         return username;
     }
-
-
-    /**
-    @Override
-    public void setURI(URI uri) {
-        this.uri = uri;
-    }
-
-    @Override
-    public void setFutureURI(URI uri) {
-        this.FutureURI = uri;
-    }
-
-    @Override
-    public URI getURI() {
-        return this.uri;
-    }
-
-    @Override
-    public void setRefreshTokenExpiry(int expiryTime) {
-        this.expiryTime = expiryTime;
-    }
-
-    @Override
-    public int getRefreshTokenExpiry() {
-        return this.expiryTime;
-    }
- **/
 
     @Override
     public ArrayList<String> getFavouriteArtists() {
@@ -88,6 +61,16 @@ public class CommonUser implements User{
     @Override
     public ArrayList<String> getTopGenres() {
         return this.topGenres;
+    }
+
+    @Override
+    public String getEmail() {
+        return this.email;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

@@ -9,6 +9,7 @@ import interface_adapter.delete_account.DeleteAccountViewModel;
 
 import interface_adapter.get_auth_code.GetAuthCodeController;
 import interface_adapter.get_auth_code.GetAuthCodeViewModel;
+import interface_adapter.logged_in.LoggedInViewModel;
 import interface_adapter.login.LogInController;
 import interface_adapter.login.LogInViewModel;
 
@@ -26,10 +27,10 @@ import java.io.IOException;
 public class SignUpUseCaseFactory {
 
     private SignUpUseCaseFactory() {}
-    public static SignupLoginView create(ViewManagerModel viewManagerModel, LogInViewModel loginViewModel, SignUpViewModel signupViewModel, GetAuthCodeViewModel getAuthCodeViewModel, LogInController loginController, GetAuthCodeController getAuthCodeController, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) {
+    public static SignupLoginView create(ViewManagerModel viewManagerModel, LoggedInViewModel loggedInViewModel, LogInViewModel loginViewModel, SignUpViewModel signupViewModel, GetAuthCodeViewModel getAuthCodeViewModel, LogInController loginController, GetAuthCodeController getAuthCodeController, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) {
 
         try {
-            SignUpController signupController = createUserSignupUseCase(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject, spotifyDataAccessObject);
+            SignUpController signupController = createUserSignupUseCase(viewManagerModel, loggedInViewModel, signupViewModel, userDataAccessObject, spotifyDataAccessObject);
             return new SignupLoginView(signupViewModel, loginViewModel, signupController, loginController, getAuthCodeViewModel, getAuthCodeController, new DeleteAccountViewModel()); // TODO: IMPLEMENT THE DELETE VIEW MODEL PROPERLY
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not open user data file.");
@@ -38,11 +39,9 @@ public class SignUpUseCaseFactory {
         return null;
     }
 
-    private static SignUpController createUserSignupUseCase(ViewManagerModel viewManagerModel, LogInViewModel loginViewModel, SignUpViewModel signupViewModel, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) throws IOException {
+    private static SignUpController createUserSignupUseCase(ViewManagerModel viewManagerModel, LoggedInViewModel loggedInViewModel, SignUpViewModel signupViewModel, FileUserSpotifyAccessObject userDataAccessObject, SpotifyDataAccessObject spotifyDataAccessObject) throws IOException {
 
-        SignUpPresenter signUpPresenter = new SignUpPresenter(signupViewModel, viewManagerModel);
-        // Notice how we pass this method's parameters to the Presenter.
-        SignUpOutputBoundary signupOutputBoundary = new SignUpPresenter(signupViewModel, viewManagerModel);
+        SignUpPresenter signUpPresenter = new SignUpPresenter(signupViewModel, viewManagerModel, loggedInViewModel);
 
         UserFactory userFactory = new CommonUserFactory();
 

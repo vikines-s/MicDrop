@@ -37,12 +37,13 @@ public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterfac
                 String header = reader.readLine();
 
                 // For later: clean this up by creating a new Exception subclass and handling it in the UI.
-                assert header.equals("username,birthdate,top_tracks,top_artists,top_genres");
+                assert header.equals("username,email,birthdate,top_tracks,top_artists,top_genres");
 
                 String row;
                 while ((row = reader.readLine()) != null) {
                     String[] col = row.split(",");
                     String username = String.valueOf(col[headers.get("username")]);
+                    String email = String.valueOf(col[headers.get("birthdate")]);
                     String birthdate = String.valueOf(col[headers.get("birthdate")]);
                     String topTracks = String.valueOf(col[headers.get("top_tracks")]);
                     String topArtists = String.valueOf(col[headers.get("top_artists")]);
@@ -63,7 +64,7 @@ public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterfac
                     String[] topGenresToIterate = topGenresWithoutBrackets.split(",");
                     ArrayList<String> topGenreArray = new ArrayList<String>(Arrays.asList(topGenresToIterate));
 
-                    User user = userFactory.create(username, birthdate, topTrackArray, topArtistArray, topGenreArray);
+                    User user = userFactory.create(username, email, birthdate, topTrackArray, topArtistArray, topGenreArray);
                     accounts.put(username, user);
                 }
             }
@@ -104,8 +105,8 @@ public class FileUserSpotifyAccessObject implements SignUpUserDataAccessInterfac
             writer.newLine();
 
             for (User user : accounts.values()) {
-                String line = String.format("%s,%s,%s",
-                        user.getName(), user.getBirthdate(), user.getTopTracks().toString(), user.getFavouriteArtists().toString(), user.getTopGenres().toString());
+                String line = String.format("%s,%s,%s,%s,%s,%s",
+                        user.getName(), user.getEmail(), user.getBirthdate(), user.getTopTracks().toString(), user.getFavouriteArtists().toString(), user.getTopGenres().toString());
                 writer.write(line);
                 writer.newLine();
             }
