@@ -1,16 +1,20 @@
 package data_access;
 
+import entity.CommonUserFactory;
 import entity.User;
 import use_case.delete_account.DeleteAccountDataAccessInterface;
 import use_case.login.LogInSpotifyAccessInterface;
 import use_case.login.LogInUserDataAccessInterface;
+import use_case.signup.SignUpSpotifyAccessInterface;
+import use_case.signup.SignUpUserDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryUserDataAccessObject implements DeleteAccountDataAccessInterface,
-        LogInUserDataAccessInterface, LogInSpotifyAccessInterface {
+        LogInUserDataAccessInterface, LogInSpotifyAccessInterface,
+        SignUpUserDataAccessInterface, SignUpSpotifyAccessInterface {
     public Map<String, User> accounts = new HashMap<>();
     public boolean existsByName(String identifier) {
         return accounts.containsKey(identifier);
@@ -25,13 +29,21 @@ public class InMemoryUserDataAccessObject implements DeleteAccountDataAccessInte
     public void deleteAccount(String username) {
         accounts.remove(username);
     }
-
     @Override
     public void updateUserData(User user) {
         ArrayList<String> list = new ArrayList<>();
         list.add("hi");
+        user.setBirthdate("May");
         user.setTopGenres(list);
         user.setTopTracks(list);
         user.setTopArtists(list);
+    }
+    @Override
+    public User signUpUser() {
+        CommonUserFactory userFactory = new CommonUserFactory();
+        ArrayList<String> list = new ArrayList<>();
+        list.add("hi");
+        User user = userFactory.create("Mila", "May", list, list, list);
+
     }
 }

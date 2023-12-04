@@ -14,9 +14,8 @@ public class LogInInteractorTest {
     void successTest() {
         LogInUserDataAccessInterface userRepository = new InMemoryUserDataAccessObject();
         LogInSpotifyAccessInterface spotifyRepository = new InMemoryUserDataAccessObject();
-        ArrayList<String> empty = new ArrayList<>();
         CommonUserFactory userFactory = new CommonUserFactory();
-        User user = userFactory.create("Mila", "may", empty, empty, empty);
+        User user = userFactory.create("Mila");
         userRepository.save(user);
         LogInOutputBoundary successPresenter = new LogInOutputBoundary() {
             @Override
