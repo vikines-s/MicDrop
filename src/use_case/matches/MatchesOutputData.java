@@ -1,17 +1,29 @@
 package use_case.matches;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 public class MatchesOutputData {
-    public HashMap matches;
-    public String currentUser;
+    public String match1;
+    public String match2;
+    public String match3;
+    public String match4;
+    public String match5;
     public String matchType;
-    public MatchesOutputData(HashMap matches, String currentUser, String matchType) {
-        this.matches = matches;
-        this.currentUser = currentUser;
+    public MatchesOutputData(LinkedHashMap matches, String matchType) {
         this.matchType = matchType;
+        ArrayList<Object> allMatches = new ArrayList<>(10);
+        for (Map.Entry<Object, Object> entry : matches.entrySet()) {
+            allMatches.add(entry.getKey());
+            allMatches.add(entry.getValue());
+        }
+        int addNull = 10 - allMatches.size();
+        for (int i=0; i<addNull; i++) {
+            allMatches.add(null);
+        }
+        match1 =
+
+
+
     }
     public String getMatches() {
         //TODO implement this
