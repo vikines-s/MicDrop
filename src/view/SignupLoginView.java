@@ -85,12 +85,12 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(signUpButton)){
                             LogInState currentState = logInViewModel.getState();
-                            signupController.execute("username", currentState.getAuthCode()); // TODO: ADD USERNAME
+                            signupController.execute(currentState.getUsername(), currentState.getAuthCode());
                         }
                     }
                 }
         );
-        //TODO: create a signuplogin view state and use values of field for login and signup controller
+
         logInButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -134,7 +134,7 @@ public class SignupLoginView extends JPanel implements ActionListener, PropertyC
             @Override
             public void keyTyped(KeyEvent e) {
                 LogInState currentState = logInViewModel.getState();
-                String text = authorizationCodeInputField.getText() + e.getKeyChar();
+                String text = authorizationCodeInputField.getText();
                 currentState.setAuthCode(text);
                 logInViewModel.setState(currentState);
             }
