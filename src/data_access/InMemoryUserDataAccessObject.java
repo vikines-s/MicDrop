@@ -7,6 +7,7 @@ import use_case.get_auth_code.GetAuthCodeDataAccessInterface;
 import use_case.login.LogInSpotifyAccessInterface;
 import use_case.login.LogInUserDataAccessInterface;
 import use_case.logout.LogOutDataAccessInterface;
+import use_case.matches.MatchesDataAccessInterface;
 import use_case.signup.SignUpSpotifyAccessInterface;
 import use_case.signup.SignUpUserDataAccessInterface;
 
@@ -17,8 +18,9 @@ import java.util.Map;
 
 public class InMemoryUserDataAccessObject implements DeleteAccountDataAccessInterface,
         LogInUserDataAccessInterface, LogInSpotifyAccessInterface,
-        SignUpUserDataAccessInterface, SignUpSpotifyAccessInterface, LogOutDataAccessInterface {
-    public Map<String, User> accounts = new HashMap<>();
+        SignUpUserDataAccessInterface, SignUpSpotifyAccessInterface, LogOutDataAccessInterface,
+        MatchesDataAccessInterface {
+    public HashMap<String, User> accounts = new HashMap<>();
     public boolean existsByName(String identifier) {
         return accounts.containsKey(identifier);
     }
@@ -26,9 +28,25 @@ public class InMemoryUserDataAccessObject implements DeleteAccountDataAccessInte
     public void save(User user) {
         accounts.put(user.getName(), user);
     }
+
+    @Override
+    public HashMap<String, User> getAccounts() {
+        return this.accounts;
+    }
+
     public User get(String username) {
         return accounts.get(username);
     }
+
+    @Override
+    public boolean usersExist() {
+        if (accounts.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void deleteAccount(String username) {
         accounts.remove(username);
     }
