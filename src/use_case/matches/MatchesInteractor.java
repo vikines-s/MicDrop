@@ -25,14 +25,12 @@ public class MatchesInteractor implements MatchesInputBoundary {
             matchPresenter.prepareFailView("There is nobody to match with!");
         }
         else {
+            ArrayList<String> checkedAccounts = new ArrayList<String>();
             Iterator it = accounts.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry pair = (Map.Entry)it.next();
-                if (pair.getKey() == currentUser) {
-                    it.remove();
-                } else {
+                if (pair.getKey() != currentUser) {
                     matches.put(pair.getValue(), algo.getMatchScore(userDataAccessObject.get(currentUser), (User) pair.getValue()));
-                    it.remove();
                 }
                 for (int i = 0; i < 5; i++) {
                     if (matches.isEmpty()) {
